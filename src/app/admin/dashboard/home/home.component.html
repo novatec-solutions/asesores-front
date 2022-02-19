@@ -1,34 +1,135 @@
-<div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="space-between stretch">
-  <div class="mb10" fxFlex="24" fxFlex.lt-lg="49">
-    <app-stat [bgClass]="'danger'" [icon]="'bookmarks'" [count]="13" [label]="'New Tickets!'"></app-stat>
+<div class="container" fxLayout="column" fxLayoutGap="25px">
+  <div fxFlex fxLayout="column" fxLayoutAlign="stretch space-between">
+    <p class="title grey-title">Consulta de consumos: Detalle de Cuentas del Usuario</p>
+    <p class="title blue-title">Buscar</p>
+    <mat-card fxFlex>
+      <mat-card-title class="title card-title">Detalles de Cuentas de Usuario</mat-card-title>
+      <p class="subtitle mt-15">Selecciona el tipo de búsqueda</p>
+      <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="start start" fxLayoutAlign.lt-md="stretch" fxLayoutGap="12px" 
+      class="cards-xs">
+        <mat-card class="{{email?'active':'deactivated'}}" fxLayout="row" fxLayoutAlign="start center" fxFlex.gt-sm="24" 
+         fxLayoutGap="7px" class="grey-text" (click)="searchSelection(1)">
+          <mat-icon >panorama_fish_eye</mat-icon>
+          <label>Correo electrónico (Completo)</label>
+        </mat-card>
+        <mat-card class="{{claroHogar?'active':'deactivated'}}" fxLayout="row" fxLayoutAlign="start center" fxFlex.gt-sm="24" 
+         fxLayoutGap="7px" class="grey-text" (click)="searchSelection(2)">
+          <mat-icon >panorama_fish_eye</mat-icon>
+          <label>No Cuenta Claro Hogar</label>
+        </mat-card>
+        <mat-card class="{{claroMovil?'active':'deactivated'}}" fxLayout="row" fxLayoutAlign="start center" fxFlex.gt-sm="24" 
+         fxLayoutGap="7px" class="grey-text" (click)="searchSelection(3)">
+          <mat-icon >panorama_fish_eye</mat-icon>
+          <label>No Línea Claro Móvil</label>
+        </mat-card>
+      </div>
+      <p class="subtitle mt-15">Ingresa tu búsqueda</p>
+      <div fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutAlign="start center" fxLayoutAlign.lt-md="stretch" fxLayoutGap="30px">
+        <div fxFlex fxFlex.gt-sm="49" fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="start center" 
+        fxLayoutAlign.lt-md="stretch" fxLayoutGap.gt-sm="25px" fxLayoutGap.lt-md="5px">
+          <label class="subtitle">Valor:</label>
+          <div class="tag-group left-group" fxFlex>
+            <mat-icon class="search-icon">search</mat-icon>
+            <input [(ngModel)]="lookupValue" fxFlex class="input-st">
+          </div>
+        </div>
+        <div fxFlex fxLayoutAlign.lt-md="center center" >
+          <button class="btn red-btn" (click)="onSearchUser()">Buscar</button>
+        </div>
+      </div>
+    </mat-card>
   </div>
-  <div class="mb10" fxFlex="24" fxFlex.lt-lg="49">
-    <app-stat [bgClass]="'warn'" [icon]="'view_list'" [count]="12" [label]="'New Task!'"></app-stat>
-  </div>
-  <div class="mb10" fxFlex="24" fxFlex.lt-lg="49">
-    <app-stat [bgClass]="'success'" [icon]="'shopping_cart'" [count]="124" [label]="'New Orders!'"></app-stat>
-  </div>
-  <div class="mb10" fxFlex="24" fxFlex.lt-lg="49">
-    <app-stat [bgClass]="'info'" [icon]="'contact_support'" [count]="13" [label]="'New Tickets!'"></app-stat>
-  </div>
-</div>
 
-<div class="mt20" fxLayout="row" fxLayoutAlign="space-between stretch" fxLayout.lt-md="column" fxLayoutGap="20px">
-  <mat-card fxFlex *ngFor="let item of places">
-    <img mat-card-image [src]="item.imgSrc">
-    <mat-card-header style="justify-content: center">
-      <mat-card-title>
-        <h3 class="m-0">{{item.name}}</h3>
-      </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      {{item.description}}
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>{{item.charge}}</button>
-      <button mat-button>
-        <mat-icon class="location-icon">location_on</mat-icon> {{item.location}}
-      </button>
-    </mat-card-actions>
-  </mat-card>
+  <div id="panel" class="hide">
+    <mat-accordion class="example-headers-align" multi fxFlex>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title class=" title card-title"> Personal data </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-card class="form-card" fxLayout="column wrap" fxLayoutAlign="start start" fxLayoutGap="10px">
+          <div fxLayout="row" fxLayoutAlign="start end" fxLayoutGap="15px" class="mr-30">
+            <div fxLayout="column">
+              <label class="card-label">Email:</label>
+              <input class="input-st">
+            </div>
+            <button class="btn red-btn">Guardar Email</button>
+          </div>
+          <div fxLayout="column" class="mr-30">
+            <label class="card-label">Nro Cuenta Claro:</label>
+            <input class="input-st">
+          </div>
+          <div fxLayout="column" class="mr-30">
+            <label class="card-label">Nombre:</label>
+            <input class="input-st">
+          </div>
+          <div fxLayout="column" class="mr-30">
+            <label class="card-label">Apellido:</label>
+            <input class="input-st">
+          </div>
+          <div fxLayout="column" class="mr-30">
+            <label class="card-label">Medio de pago:</label>
+            <input class="input-st">
+          </div>
+          <div fxLayout="column" class="mr-30">
+            <label class="card-label">No de cuenta:</label>
+            <input class="input-st">
+          </div>
+          <div fxLayout="column">
+            <label class="card-label">Id interno del usuario:</label>
+            <input class="input-st">
+          </div>
+          <button class="btn blue-btn">Cambiar clave</button>
+        </mat-card>
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <button class="btn grey-btn mt-15">Eliminar cuenta del usuario</button>
+        </div>
+        
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="title card-title"> Alquileres del usuario </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div fxFlex fxLayout="column" fxLayoutGap="20px">
+          <mat-card fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="18px">
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="7px">
+              <mat-label class="card-label">Fecha desde:</mat-label>
+              <app-calendar></app-calendar>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="7px">
+              <mat-label class="card-label">Fecha hasta:</mat-label>
+              <app-calendar></app-calendar>
+            </div>
+            <button class="btn red-btn">Enviar</button>
+          </mat-card>
+          <app-table dataForTable="{{dataTableAux1}}"></app-table>
+        </div>
+        
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="title card-title"> Suscripciones del usuario </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div fxFlex fxLayout="column" fxLayoutGap="20px">
+          <mat-card fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="18px">
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="7px">
+              <mat-label class="card-label">Fecha desde:</mat-label>
+              <app-calendar></app-calendar>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="7px">
+              <mat-label class="card-label">Fecha hasta:</mat-label>
+              <app-calendar></app-calendar>
+            </div>
+            <button class="btn red-btn">Enviar</button>
+          </mat-card>
+          <app-table dataForTable="{{dataTableAux2}}"></app-table>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="title card-title"> Dispositivos del usuario </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-table dataForTable="{{dataTableAux3}}"></app-table>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
 </div>

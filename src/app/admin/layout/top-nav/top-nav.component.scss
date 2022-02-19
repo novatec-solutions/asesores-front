@@ -8,40 +8,36 @@
   top: 0;
   z-index: 1000;
 }
-.nav-brand {
-  text-align: center;
-}
-.topnav-icon {
-  text-decoration: none;
-  display: flex;
-  color: $white;
+
+.fix-nav{
+  background: #2D2D2D;
 }
 
-.nav-spacer {
-  flex: 1 1 auto;
+.mat-toolbar-single-row {
+  padding: 0 0;
 }
 
-.visible-md {
-  display: none;
-}
-.visible-sm {
-  display: none;
-}
-@media screen and (max-width: 992px) {
-  .visible-md {
-      display: block;
+.mr-15 { margin-right: 15px; }
+
+.top-bar{
+  font-size: 12px;
+  font-family: Helvetica;
+
+  .link{
+    text-decoration: underline;
+    color: #FFFFFF;
   }
-}
-@media screen and (max-width: 768px) {
-  .visible-sm {
-      display: block;
-  }
-  .nav-brand {
-      width: 100%;
-  }
-}
-@media screen and (max-width: 768px) {
-  .hidden-sm {
-      display: none;
+  .user-name{ color: #999999; }
+  
+  .w-text{ color: #FFFFFF; }
+
+  .blue-btn{
+    background: #187385 0% 0% no-repeat padding-box;
+    border-radius: 10px;
+    color: #fff;
+    border: none;
+    padding: 8px 30px;
+    font-size: 12px;
+    font-family: Helvetica;
   }
 }
