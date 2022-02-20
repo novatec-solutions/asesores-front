@@ -13,10 +13,6 @@ export class TopNavComponent implements OnInit {
 
   ngOnInit() {}
 
-  toggleSidebar() {
-    this.sideNavToggled.emit();
-  }
-
   onLoggedout() {
     localStorage.removeItem('isLoggedin');
     this.router.navigate(['/login']);
