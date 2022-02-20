@@ -1,18 +1,11 @@
-#Primera Etapa
-FROM node:14-alpine AS build
+FROM node:latest as build
 
-RUN mkdir -p /app
+WORKDIR /usr/local/app
 
-WORKDIR /app
-
-COPY package.json /app
-
+COPY ./ /usr/local/app/
 RUN npm install
+RUN npm run build
 
-COPY . /app
-
-RUN npm run build --prod
-
-#Segunda Etapa
-#FROM nginx:1.17.1-alpine
-#COPY --from=build /app/dist/angular-material-admin /usr/share/nginx/html
+FROM nginx:latest
+COPY --from=build /usr/local/app/dist/sample-angular-app /usr/share/nginx/html
+EXPOSE 80
