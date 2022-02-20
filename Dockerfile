@@ -1,5 +1,5 @@
 
-FROM nginx:latest AS ngi
+FROM nginx:latest
 WORKDIR /dist/src/app
 RUN pwd
 RUN ls
