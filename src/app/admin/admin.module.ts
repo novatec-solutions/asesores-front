@@ -11,7 +11,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { AdminRoutingModule } from './admin-routing.module';
 import { LayoutComponent } from './layout/layout.component';
 import { TopNavComponent } from './layout/top-nav/top-nav.component';
-import { SideNavComponent } from './layout/side-nav/side-nav.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
@@ -27,6 +26,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatListModule,
     FlexLayoutModule
   ],
-  declarations: [LayoutComponent, TopNavComponent, SideNavComponent]
+  declarations: [LayoutComponent, TopNavComponent]
 })
 export class AdminModule {}

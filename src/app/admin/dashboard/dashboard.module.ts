@@ -9,7 +9,6 @@ import { MatGridListModule } from '@angular/material/grid-list';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { HomeComponent } from './home/home.component';
-import { StatComponent } from './stat/stat.component';
 
 import {MatExpansionModule} from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -40,7 +39,7 @@ import { MatInputModule } from '@angular/material/input';
     MatNativeDateModule,
     MatInputModule
   ],
-  declarations: [HomeComponent, StatComponent, TableComponent, CalendarComponent],
+  declarations: [HomeComponent, TableComponent, CalendarComponent],
   exports: [TableComponent, CalendarComponent]
   
 })
