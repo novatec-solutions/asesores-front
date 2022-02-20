@@ -11,6 +11,6 @@ RUN chmod -R a+w /var/run /run /var/cache /var/cache/nginx
 
 COPY /dist/angular-material-admin /usr/share/nginx/html
 
-EXPOSE 80
+EXPOSE 3000
 
 USER 100
