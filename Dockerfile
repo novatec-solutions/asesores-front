@@ -1,6 +1,5 @@
-FROM node:12.14-alpine AS build-node
-# Create a Virtual directory inside the docker image
-WORKDIR /dist/src/app
 
-# Run command in Virtual directory
-RUN npm cache clean --force
+FROM nginx:latest AS ngi
+RUN ls
+COPY /nginx.conf  /etc/nginx/conf.d/default.conf
+EXPOSE 80
