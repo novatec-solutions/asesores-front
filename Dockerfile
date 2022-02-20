@@ -16,5 +16,3 @@ RUN npm run build --prod
 #Segunda Etapa
 FROM nginx:1.17.1-alpine
 COPY --from=build-step /app/dist/angular-material-admin /usr/share/nginx/html
-
-EXPOSE 80
