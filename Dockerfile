@@ -1,5 +1,5 @@
 #Primera Etapa
-FROM node:14
+FROM node:14-alpine AS build
 
 RUN mkdir -p /app
 
