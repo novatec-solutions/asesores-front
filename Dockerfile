@@ -1,2 +1,3 @@
-FROM trion/docker-nginx-angular
-COPY dist/angular-material-admin /usr/share/nginx/html
+FROM node:12.14-alpine AS build
+
+WORKDIR /dist/src/app
