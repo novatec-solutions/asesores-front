@@ -1,8 +1,8 @@
 
 FROM nginx:latest
 WORKDIR /dist/src/app
-RUN pwd
-RUN ls
+#RUN pwd
+#RUN ls
 
 COPY /nginx.conf  /etc/nginx/conf.d/default.conf
 
