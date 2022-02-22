@@ -1,8 +1,8 @@
-<table mat-table width="100%" [dataSource]="dataSource">
+<table mat-table width="100%" [dataSource]="dataSource" class="text-center">
     <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns">
-        <th mat-header-cell *matHeaderCellDef>{{column}}</th>
-        <div *ngIf="column=='Detalle abono' || column=='Acciones'; else blockBody">
-            <td mat-cell *matCellDef="let element"><button class="btn blue-btn">{{element[column]}}</button></td>
+        <th mat-header-cell *matHeaderCellDef>{{getHeaderTitle(column)}}</th>
+        <div *ngIf="column=='payDetail' || column=='actions'; else blockBody">
+            <td mat-cell *matCellDef="let element"><button class="btn bg-blue btn-xs">{{element[column]}}</button></td>
         </div>
         <ng-template #blockBody>
             <td mat-cell *matCellDef="let element"> {{element[column]}} </td>

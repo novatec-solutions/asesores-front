@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, SimpleChange, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { enums } from 'src/app/shared/enumText';
 
 @Component({
   selector: 'app-table',
@@ -29,8 +30,5 @@ export class TableComponent implements OnInit {
     }
   }
 
-  // ngAfterViewInit() {
-  //   this.dataSource.paginator = this.paginator;
-  // }
-
+  getHeaderTitle(id){ return enums.table(id); }
 }
