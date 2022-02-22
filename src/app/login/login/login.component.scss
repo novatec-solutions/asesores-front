@@ -1,49 +1,79 @@
 @import '~src/scss/variables';
 
+%login-background {
+  background: url(../../../assets/images/login-hero.png);
+  background-size:cover;
+  background-position:center center;
+  background-attachment:fixed;
+}
+
 .login-page {
+  @extend %login-background;
+
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
   position: relative;
+
   .content {
     z-index: 1;
     display: flex;
     align-items: center;
     justify-content: center;
+    
     .app-name {
+      color: $white;
       margin-top: 0px;
       padding-bottom: 10px;
-      font-size: 32px;
+      font-weight: 400;
+      font-size: 25px;
     }
+
     .login-form {
       padding: 40px;
-      background: $white;
-      max-width: 500px;
-      box-shadow: 0 0 20px #ddd;
-      input:-webkit-autofill {
-        box-shadow: 0 0 0 30px $white inset;
-        -webkit-box-shadow: 0 0 0 30px $white inset;
+      background: $login-form-background;
+      max-width: 300px;
+
+      .login-input {
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: column;
+        margin: 11px 0;
+
+        &--label {
+          width: 100%;
+          color: $white;
+          margin: 3px 0px;
+        }
+        
+        &--input {
+          color: $white;
+          background: $input-background;
+          border: none;
+          font-size: 17px;
+          padding: 0.4rem 0.2rem;
+          min-width: 17rem;
+          border-radius: 5px;
+        }
+      }
+
+      &--icon {
+        text-align: center;
+        img {
+          max-width: 4rem;
+        }
+      }
+
+      &--submit {
+        display: flex;
+        justify-content: center;
+        margin: 1.5rem 0 3.5rem;
+        button {
+          font-size: 1rem;
+        }
       }
     }
-  }
-  &:after {
-    content: '';
-    background: $white;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 50%;
-    right: 0;
-  }
-  &:before {
-    content: '';
-    background: $primary-color;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    bottom: 0;
-    right: 0;
   }
 }
 
