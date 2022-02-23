@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { DateAdapter } from '@angular/material/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 @Component({
@@ -8,19 +9,19 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
   styleUrls: ['./calendar.component.scss']
 })
 export class CalendarComponent implements OnInit {
-  dateStart;
-  dateStartMin;
-  dateStartMax;
+  @Output() selectedDate=new EventEmitter<string>();
+  dateIni;
   currentDate = new Date();
 
-  constructor() { }
+  constructor(private dateAdapter: DateAdapter<any>) { }
 
   ngOnInit(): void {
-    this.dateStart = new FormControl(new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate()));
+    this.dateAdapter.setLocale('es');
+    this.dateIni = new FormControl(new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate()));
   }
 
-  addEvent(type, event: MatDatepickerInputEvent<Date>){
-    console.log(type)
+  addEvent(event: MatDatepickerInputEvent<Date>){
+    this.selectedDate.emit(JSON.stringify(`${event.value.getDate()}/${event.value.getMonth()+1}/${event.value.getFullYear()}`));
   }
 
 }

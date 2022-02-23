@@ -17,4 +17,9 @@ export class TopNavComponent implements OnInit {
     localStorage.removeItem('isLoggedin');
     this.router.navigate(['/login']);
   }
+
+  onGoUp(){
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }
 }

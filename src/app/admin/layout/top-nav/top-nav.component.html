@@ -1,9 +1,9 @@
-<mat-toolbar class="fix-nav" fxLayout="row" fxLayoutAlign="space-around center">  
+<mat-toolbar class="bg-dark" fxLayout="row" fxLayoutAlign="space-around center">  
   <img src="assets/images/clarovideo.svg" alt="Claro Video">
   <div class="top-bar">
-    <label class="w-text mr-15" fxHide.lt-sm="true">Colombia</label>
-    <label class="user-name mr-15" fxHide.lt-sm="true">marquez</label>
-    <a href="#" class="link mr-15" fxHide.lt-sm="true"> Volver al Inicio </a>
-    <button class="blue-btn" (click)="onLoggedout()">Salir</button>
+    <label class="color-w mr15" fxHide.lt-sm="true">Colombia</label>
+    <label class="user-name mr15" fxHide.lt-sm="true">Marquez</label>
+    <a (click)="onGoUp()" class="mr15 link" fxHide.lt-sm="true">Volver al Inicio</a>
+    <button class="btn bg-blue" (click)="onLoggedout()">Salir</button>
   </div>
 </mat-toolbar>

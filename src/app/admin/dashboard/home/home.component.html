@@ -1,135 +1,147 @@
-<div class="container" fxLayout="column" fxLayoutGap="25px">
+<div fxLayout="column" fxLayoutGap="25px">
   <div fxFlex fxLayout="column" fxLayoutAlign="stretch space-between">
-    <p class="title grey-title">Consulta de consumos: Detalle de Cuentas del Usuario</p>
-    <p class="title blue-title">Buscar</p>
+    <label class="title gray-color mt20"><b>Consulta de consumos: Detalle de Cuentas del Usuario</b></label>
+    <label class="title blue-color py20"><b>Buscar</b></label>
     <mat-card fxFlex>
-      <mat-card-title class="title card-title">Detalles de Cuentas de Usuario</mat-card-title>
-      <p class="subtitle mt-15">Selecciona el tipo de búsqueda</p>
+      <mat-card-title class="card-title"><b>Detalles de Cuentas de Usuario</b></mat-card-title>
+      <p class="subtitle mt15">Selecciona el tipo de búsqueda</p>
       <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="start start" fxLayoutAlign.lt-md="stretch" fxLayoutGap="12px" 
       class="cards-xs">
         <mat-card class="{{email?'active':'deactivated'}}" fxLayout="row" fxLayoutAlign="start center" fxFlex.gt-sm="24" 
-         fxLayoutGap="7px" class="grey-text" (click)="searchSelection(1)">
+         fxLayoutGap="7px" (click)="searchSelection(1)">
           <mat-icon >panorama_fish_eye</mat-icon>
           <label>Correo electrónico (Completo)</label>
         </mat-card>
-        <mat-card class="{{claroHogar?'active':'deactivated'}}" fxLayout="row" fxLayoutAlign="start center" fxFlex.gt-sm="24" 
-         fxLayoutGap="7px" class="grey-text" (click)="searchSelection(2)">
+        <mat-card class="{{hogar?'active':'deactivated'}}" fxLayout="row" fxLayoutAlign="start center" fxFlex.gt-sm="24" 
+         fxLayoutGap="7px" (click)="searchSelection(2)">
           <mat-icon >panorama_fish_eye</mat-icon>
-          <label>No Cuenta Claro Hogar</label>
+          <label>Nro Cuenta Claro Hogar</label>
         </mat-card>
-        <mat-card class="{{claroMovil?'active':'deactivated'}}" fxLayout="row" fxLayoutAlign="start center" fxFlex.gt-sm="24" 
-         fxLayoutGap="7px" class="grey-text" (click)="searchSelection(3)">
+        <mat-card class="{{movil?'active':'deactivated'}}" fxLayout="row" fxLayoutAlign="start center" fxFlex.gt-sm="24" 
+         fxLayoutGap="7px" (click)="searchSelection(3)">
           <mat-icon >panorama_fish_eye</mat-icon>
-          <label>No Línea Claro Móvil</label>
+          <label>Nro Línea Claro Móvil</label>
         </mat-card>
       </div>
-      <p class="subtitle mt-15">Ingresa tu búsqueda</p>
-      <div fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutAlign="start center" fxLayoutAlign.lt-md="stretch" fxLayoutGap="30px">
+      <p class="subtitle mt15">Ingresa tu búsqueda</p>
+      <form [formGroup]="myForm" (ngSubmit)="onSearchUser()" novalidate fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutAlign="start center" fxLayoutAlign.lt-md="stretch" fxLayoutGap="30px">
         <div fxFlex fxFlex.gt-sm="49" fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="start center" 
         fxLayoutAlign.lt-md="stretch" fxLayoutGap.gt-sm="25px" fxLayoutGap.lt-md="5px">
           <label class="subtitle">Valor:</label>
-          <div class="tag-group left-group" fxFlex>
+          <div class="tag-group" fxFlex>
             <mat-icon class="search-icon">search</mat-icon>
-            <input [(ngModel)]="lookupValue" fxFlex class="input-st">
+            <div fxLayout="column">
+             <input [type]="sType" formControlName="lookupValue" appearance="outline"
+              fxFlex [ngClass]="{'err-box':myForm.get('lookupValue')!.hasError('pattern')}" class="input-st">
+              <label class="err-text pt5" *ngIf="sType=='email' && myForm.get('lookupValue')!.hasError('pattern')">Campo obligatorio, debe escribir un email correcto</label>
+              <label class="err-text pt5" *ngIf="sType=='text' && myForm.get('lookupValue')!.hasError('pattern')">Campo obligatorio, debe contener 6 caracteres</label>
+              <label class="err-text pt5" *ngIf="sType=='number' && myForm.get('lookupValue')!.hasError('pattern')">Campo obligatorio, debe inciar en 3 y contener 10 digitos</label>
+            </div>
           </div>
         </div>
         <div fxFlex fxLayoutAlign.lt-md="center center" >
-          <button class="btn red-btn" (click)="onSearchUser()">Buscar</button>
+          <button class="btn" type="submit" class="{{myForm.invalid || sType==''?'bg-light-grey':'bg-red'}}" [disabled]="myForm.invalid || sType==''">Buscar</button>
         </div>
-      </div>
+      </form>
     </mat-card>
   </div>
 
-  <div id="panel" class="hide">
-    <mat-accordion class="example-headers-align" multi fxFlex>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title class=" title card-title"> Personal data </mat-panel-title>
-        </mat-expansion-panel-header>
-        <mat-card class="form-card" fxLayout="column wrap" fxLayoutAlign="start start" fxLayoutGap="10px">
-          <div fxLayout="row" fxLayoutAlign="start end" fxLayoutGap="15px" class="mr-30">
-            <div fxLayout="column">
-              <label class="card-label">Email:</label>
-              <input class="input-st">
-            </div>
-            <button class="btn red-btn">Guardar Email</button>
-          </div>
-          <div fxLayout="column" class="mr-30">
-            <label class="card-label">Nro Cuenta Claro:</label>
-            <input class="input-st">
-          </div>
-          <div fxLayout="column" class="mr-30">
-            <label class="card-label">Nombre:</label>
-            <input class="input-st">
-          </div>
-          <div fxLayout="column" class="mr-30">
-            <label class="card-label">Apellido:</label>
-            <input class="input-st">
-          </div>
-          <div fxLayout="column" class="mr-30">
-            <label class="card-label">Medio de pago:</label>
-            <input class="input-st">
-          </div>
-          <div fxLayout="column" class="mr-30">
-            <label class="card-label">No de cuenta:</label>
-            <input class="input-st">
-          </div>
-          <div fxLayout="column">
-            <label class="card-label">Id interno del usuario:</label>
-            <input class="input-st">
-          </div>
-          <button class="btn blue-btn">Cambiar clave</button>
-        </mat-card>
-        <div fxLayout="row" fxLayoutAlign="center center">
-          <button class="btn grey-btn mt-15">Eliminar cuenta del usuario</button>
-        </div>
-        
-      </mat-expansion-panel>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title class="title card-title"> Alquileres del usuario </mat-panel-title>
-        </mat-expansion-panel-header>
-        <div fxFlex fxLayout="column" fxLayoutGap="20px">
-          <mat-card fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="18px">
-            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="7px">
-              <mat-label class="card-label">Fecha desde:</mat-label>
-              <app-calendar></app-calendar>
-            </div>
-            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="7px">
-              <mat-label class="card-label">Fecha hasta:</mat-label>
-              <app-calendar></app-calendar>
-            </div>
-            <button class="btn red-btn">Enviar</button>
-          </mat-card>
-          <app-table dataForTable="{{dataTableAux1}}"></app-table>
-        </div>
-        
-      </mat-expansion-panel>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title class="title card-title"> Suscripciones del usuario </mat-panel-title>
-        </mat-expansion-panel-header>
-        <div fxFlex fxLayout="column" fxLayoutGap="20px">
-          <mat-card fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="18px">
-            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="7px">
-              <mat-label class="card-label">Fecha desde:</mat-label>
-              <app-calendar></app-calendar>
-            </div>
-            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="7px">
-              <mat-label class="card-label">Fecha hasta:</mat-label>
-              <app-calendar></app-calendar>
-            </div>
-            <button class="btn red-btn">Enviar</button>
-          </mat-card>
-          <app-table dataForTable="{{dataTableAux2}}"></app-table>
-        </div>
-      </mat-expansion-panel>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title class="title card-title"> Dispositivos del usuario </mat-panel-title>
-        </mat-expansion-panel-header>
-        <app-table dataForTable="{{dataTableAux3}}"></app-table>
-      </mat-expansion-panel>
-    </mat-accordion>
+  <div class="spinner-container" *ngIf="loading; else loaded">
+    <mat-spinner [diameter]="40" [strokeWidth]="10"></mat-spinner>
   </div>
+
+  <ng-template #loaded>
+    <div class="{{( !loading && visible )?'visible':'hide'}}">
+      <mat-accordion class="example-headers-align" multi fxFlex>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title class="card-title"><b>Datos del usuario</b></mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-card class="form-card" fxLayout="column wrap" fxLayoutAlign="start start" fxLayoutGap="10px">
+            <div fxLayout="row" fxLayoutAlign="start end" fxLayoutGap="15px" class="mr30">
+              <div fxLayout="column">
+                <label>Email:</label>
+                <input class="input-st">
+              </div>
+              <button class="btn bg-red">Guardar Email</button>
+            </div>
+            <div fxLayout="column" class="mr30">
+              <label>Nro Cuenta Claro:</label>
+              <input class="input-st" disabled>
+            </div>
+            <div fxLayout="column" class="mr30">
+              <label>Nombre:</label>
+              <input class="input-st" disabled>
+            </div>
+            <div fxLayout="column" class="mr30">
+              <label>Apellido:</label>
+              <input class="input-st" disabled>
+            </div>
+            <div fxLayout="column" class="mr30">
+              <label>Medio de pago:</label>
+              <input class="input-st" disabled>
+            </div>
+            <div fxLayout="column" class="mr30">
+              <label>No de cuenta:</label>
+              <input class="input-st" disabled>
+            </div>
+            <div fxLayout="column">
+              <label>Id interno del usuario:</label>
+              <input class="input-st" disabled>
+            </div>
+            <button class="btn bg-blue">Cambiar clave</button>
+          </mat-card>
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <button class="btn bg-gray mt15">Eliminar cuenta del usuario</button>
+          </div>
+          
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title class="card-title"><b>Alquileres del usuario</b></mat-panel-title>
+          </mat-expansion-panel-header>
+          <div fxFlex fxLayout="column" fxLayoutGap="20px">
+            <mat-card fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="18px">
+              <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="7px">
+                <mat-label class="card-label">Fecha desde:</mat-label>
+                <app-calendar (selectedDate)="dateChange('start',$event)"></app-calendar>
+              </div>
+              <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="7px">
+                <mat-label class="card-label">Fecha hasta:</mat-label>
+                <app-calendar (selectedDate)="dateChange('end',$event)"></app-calendar>
+              </div>
+              <button class="btn bg-red">Enviar</button>
+            </mat-card>
+            <app-table dataForTable="{{dataTableAux1}}"></app-table>
+          </div>
+          
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title class="card-title"><b>Suscripciones del usuario</b></mat-panel-title>
+          </mat-expansion-panel-header>
+          <div fxFlex fxLayout="column" fxLayoutGap="20px">
+            <mat-card fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="18px">
+              <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="7px">
+                <mat-label class="card-label">Fecha desde:</mat-label>
+                <app-calendar (selectedDate)="dateChange('start',$event)"></app-calendar>
+              </div>
+              <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="7px">
+                <mat-label class="card-label">Fecha hasta:</mat-label>
+                <app-calendar (selectedDate)="dateChange('end',$event)"></app-calendar>
+              </div>
+              <button class="btn bg-red">Enviar</button>
+            </mat-card>
+            <app-table dataForTable="{{dataTableAux2}}"></app-table>
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title class="card-title"><b>Dispositivos del usuario</b></mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-table dataForTable="{{dataTableAux3}}"></app-table>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </ng-template>
 </div>
