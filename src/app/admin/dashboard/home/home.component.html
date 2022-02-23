@@ -61,33 +61,33 @@
             <div fxLayout="row" fxLayoutAlign="start end" fxLayoutGap="15px" class="mr30">
               <div fxLayout="column">
                 <label>Email:</label>
-                <input class="input-st">
+                <input class="input-st" value="{{userData?.ns2emailAddress}}">
               </div>
               <button class="btn bg-red">Guardar Email</button>
             </div>
             <div fxLayout="column" class="mr30">
               <label>Nro Cuenta Claro:</label>
-              <input class="input-st" disabled>
+              <input class="input-st" disabled value="{{userData?.ns2fixedAccount}}">
             </div>
             <div fxLayout="column" class="mr30">
               <label>Nombre:</label>
-              <input class="input-st" disabled>
+              <input class="input-st" disabled value="{{userData?.ns2firstName}}">
             </div>
             <div fxLayout="column" class="mr30">
               <label>Apellido:</label>
-              <input class="input-st" disabled>
+              <input class="input-st" disabled value="{{userData?.ns2lastName}}">
             </div>
             <div fxLayout="column" class="mr30">
               <label>Medio de pago:</label>
-              <input class="input-st" disabled>
+              <input class="input-st" disabled value="{{userData?.ns2providerId}}">
             </div>
             <div fxLayout="column" class="mr30">
               <label>No de cuenta:</label>
-              <input class="input-st" disabled>
+              <input class="input-st" disabled value="{{userData?.ns2customerId}}">
             </div>
             <div fxLayout="column">
               <label>Id interno del usuario:</label>
-              <input class="input-st" disabled>
+              <input class="input-st" disabled value="{{userData?.ns2idNumber}}">
             </div>
             <button class="btn bg-blue">Cambiar clave</button>
           </mat-card>

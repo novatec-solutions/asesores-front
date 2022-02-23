@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {MatAccordion} from '@angular/material/expansion';
+import { MatAccordion } from '@angular/material/expansion';
 import { enums } from 'src/app/shared/enumText';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from '../components/dialog/dialog.component';
+import { UserQueryService } from '../../../shared/services/user-query.service';
 
 @Component({
   selector: 'app-home',
@@ -21,6 +24,7 @@ export class HomeComponent implements OnInit {
   dataTableAux3;
   loading: boolean = false;
   visible: boolean = false;
+  userData: any;
 
   displayedColumns1 = ['title','ipUser','lastTime','maxTime','highDate','dateExpiry','price','payMethod','actions'];
   ELEMENT_DATA1 = [{title:"",ipUser:"",lastTime:"",maxTime:"",highDate:"",dateExpiry:"",price:"",payMethod:"",actions:""}];
@@ -34,9 +38,12 @@ export class HomeComponent implements OnInit {
   ELEMENT_DATA3 = [{device:"web0s",name:"Dispositivo 3",serial:"235b3d2b-b106-6bf5-a21b-dcacf3f57e43",actDate:"30/04/2020"},
     {device:"web0s",name:"Dispositivo 3",serial:"235b3d2b-b106-6bf5-a21b-dcacf3f57e43",actDate:"30/04/2020"}];
 
-  constructor(public fb: FormBuilder) {
+  constructor(public fb: FormBuilder, 
+              public dialog: MatDialog,
+              private UserQueryService: UserQueryService) {
     this.myForm = this.fb.group({lookupValue: [{ value:'', disabled: true },Validators.required]});
   }
+
   ngOnInit() {
     this.dataTableAux1 = JSON.stringify({columns: this.displayedColumns1, elements: this.ELEMENT_DATA1});
     this.dataTableAux2 = JSON.stringify({columns: this.displayedColumns2, elements: this.ELEMENT_DATA2});
@@ -45,15 +52,48 @@ export class HomeComponent implements OnInit {
 
   onSearchUser(){
     this.loading = true;
-    setTimeout(()=>{
+
+    if(this.email){
+      const request = { "data":{ "emailAddress": this.lookupValue, "state": "A" } };
+  
+      this.UserQueryService.user_data_by_email(request).subscribe( res => {  
+        this.validateData(res);
+      });
+    }else if(this.hogar){
+      const request = { "data": { "fixedAccount": this.lookupValue, "state": "A" } };
+  
+      this.UserQueryService.user_data_by_home_account(request).subscribe( res => {  
+        this.validateData(res);
+      });
+    }else if(this.movil){
+      const request = { "data":{ "fixedAccount": this.lookupValue, "state": "A" } };
+  
+      this.UserQueryService.user_data_by_mobile_line(request).subscribe( res => {  
+        this.validateData(res);
+      });
+    }
+  }
+
+  validateData(data){
+    if(data?.error && data?.error > 0){
+      const dialogRef = this.dialog.open(DialogComponent, { 
+        width: '250px',
+        data: {text: 'No hay resultados para los datos ingresados en la búsqueda.'},
+      });
+      dialogRef.afterClosed();
+      this.loading = false;
+    }else{
+      this.userData = data;
       this.loading = false;
       this.visible = true;
-    }, 2000);
+    }
   }
 
   searchSelection(type){
     this.myForm.controls.lookupValue.enable();
     this.visible = false;
+    this.loading = false;
+
     switch(enums.account(type)) { 
       case 'email': { 
         this.email = true;

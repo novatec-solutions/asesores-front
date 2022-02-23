@@ -6,7 +6,8 @@ import { HomeComponent } from './home/home.component';
 import { TableComponent } from './components/table/table.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from '../../shared/material.module'
+import { MaterialModule } from '../../shared/material.module';
+import { DialogComponent } from './components/dialog/dialog.component'
 
 @NgModule({
   imports: [
@@ -17,7 +18,7 @@ import { MaterialModule } from '../../shared/material.module'
     ReactiveFormsModule,
     MaterialModule
   ],
-  declarations: [HomeComponent, TableComponent, CalendarComponent],
+  declarations: [HomeComponent, TableComponent, CalendarComponent, DialogComponent],
   exports: [TableComponent, CalendarComponent]
   
 })
