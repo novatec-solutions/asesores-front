@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  url_server: 'https://asesoresapp-back-miclaro-dev-novatec.104.209.147.150.nip.io/m3/'
 };
 
 /*
