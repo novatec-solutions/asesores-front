@@ -7,7 +7,7 @@ import { TableComponent } from './components/table/table.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../../shared/material.module';
-import { DialogComponent } from './components/dialog/dialog.component'
+import { DialogComponent } from './components/dialog/dialog.component';
 
 @NgModule({
   imports: [
