@@ -8,12 +8,15 @@ import { Router } from '@angular/router';
 })
 export class TopNavComponent implements OnInit {
   @Output() sideNavToggled = new EventEmitter<void>();
-
+  user:string ='';
   constructor(private readonly router: Router) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.user = localStorage.getItem('username')
+  }
 
   onLoggedout() {
+    localStorage.removeItem('username');
     localStorage.removeItem('isLoggedin');
     this.router.navigate(['/login']);
   }

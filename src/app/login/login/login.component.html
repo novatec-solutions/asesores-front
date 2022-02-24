@@ -1,6 +1,6 @@
 <div class="login-page">
   <div class="content px20">
-    <form class="login-form" #myForm="ngForm" (ngSubmit)="onLogin()">
+    <form [formGroup]="loginForm" class="login-form" novalidate (ngSubmit)="onLogin()">
       <div class="login-form--icon">
         <img src="assets/images/login-icon.svg" alt="Asesores Appp">
       </div>
@@ -11,16 +11,16 @@
         <div fxFlexFill>
           <div class="login-input w-100">
             <label class="login-input--label">Usuario</label>
-            <input class="login-input--input" matInput>
+            <input formControlName="user" class="login-input--input">
           </div>
           <div class="login-input w-100">
             <label class="login-input--label">Contraseña</label>
-            <input class="login-input--input" matInput type="password">
+            <input type="password" formControlName="pass" class="login-input--input">
           </div>
         </div>
       </div>
       <div class="login-form--submit">
-        <button type="submit" class="btn red-btn">
+        <button type="submit" class="{{loginForm.invalid?'bg-light-grey':'bg-red'}} btn" [disabled]="loginForm.invalid">
           Iniciar sesión
         </button>
       </div>
