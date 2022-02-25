@@ -24,23 +24,23 @@
         </mat-card>
       </div>
       <p class="subtitle mt15">Ingresa tu búsqueda</p>
-      <form [formGroup]="myForm" (ngSubmit)="onSearchUser()" novalidate fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutAlign="start center" fxLayoutAlign.lt-md="stretch" fxLayoutGap="30px">
+      <form [formGroup]="searchForm" (ngSubmit)="onSearchUser()" novalidate fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutAlign="start center" fxLayoutAlign.lt-md="stretch" fxLayoutGap="30px">
         <div fxFlex fxFlex.gt-sm="49" fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="start center" 
         fxLayoutAlign.lt-md="stretch" fxLayoutGap.gt-sm="25px" fxLayoutGap.lt-md="5px">
           <label class="subtitle">Valor:</label>
           <div class="tag-group" fxFlex>
             <mat-icon class="search-icon">search</mat-icon>
             <div fxLayout="column">
-             <input [type]="sType" formControlName="lookupValue" appearance="outline"
-              fxFlex [ngClass]="{'err-box':myForm.get('lookupValue')!.hasError('pattern')}" class="input-st">
-              <label class="err-text pt5" *ngIf="sType=='email' && myForm.get('lookupValue')!.hasError('pattern')">Campo obligatorio, debe escribir un email correcto</label>
-              <label class="err-text pt5" *ngIf="sType=='text' && myForm.get('lookupValue')!.hasError('pattern')">Campo obligatorio, debe contener 6 caracteres</label>
-              <label class="err-text pt5" *ngIf="sType=='number' && myForm.get('lookupValue')!.hasError('pattern')">Campo obligatorio, debe inciar en 3 y contener 10 digitos</label>
+             <input type="{{sType=='email'?'email':'number'}}" formControlName="lookupValue" appearance="outline"
+              fxFlex [ngClass]="{'err-box':searchForm.get('lookupValue')!.hasError('pattern')}" class="input-st">
+              <label class="err-text pt5" *ngIf="sType=='email' && searchForm.get('lookupValue')!.hasError('pattern')">Campo obligatorio, debe escribir un email correcto</label>
+              <label class="err-text pt5" *ngIf="sType=='hogar' && searchForm.get('lookupValue')!.hasError('pattern')">Campo obligatorio</label>
+              <label class="err-text pt5" *ngIf="sType=='movil' && searchForm.get('lookupValue')!.hasError('pattern')">Campo obligatorio, debe inciar en 3 y contener 10 digitos</label>
             </div>
           </div>
         </div>
         <div fxFlex fxLayoutAlign.lt-md="center center" >
-          <button class="btn" type="submit" class="{{myForm.invalid || sType==''?'bg-light-grey':'bg-red'}}" [disabled]="myForm.invalid || sType==''">Buscar</button>
+          <button class="btn" type="submit" class="{{searchForm.invalid || sType==''?'bg-light-grey':'bg-red'}}" [disabled]="searchForm.invalid || sType==''">Buscar</button>
         </div>
       </form>
     </mat-card>
@@ -57,39 +57,52 @@
           <mat-expansion-panel-header>
             <mat-panel-title class="card-title"><b>Datos del usuario</b></mat-panel-title>
           </mat-expansion-panel-header>
-          <mat-card class="form-card" fxLayout="column wrap" fxLayoutAlign="start start" fxLayoutGap="10px">
-            <div fxLayout="row" fxLayoutAlign="start end" fxLayoutGap="15px" class="mr30">
-              <div fxLayout="column">
-                <label>Email:</label>
-                <input class="input-st" value="{{userData?.ns2emailAddress}}">
+          <mat-card>
+            <form [formGroup]="userForm" class="form-card" fxLayout="column wrap" fxLayoutAlign="start start" fxLayoutGap="10px">
+              <div fxLayout="row" fxLayoutAlign="start end" fxLayoutGap="15px" class="mr30">
+                <div fxLayout="column">
+                  <label>Email:</label>
+                  <input formControlName="mail" class="input-st">
+                </div>
+                <button #btnMail class="{{userForm.get('mail').value ==''?'bg-light-grey':'bg-red'}} btn" 
+                (click)="modifyMail(userData)" fxFlex="130px" 
+                [disabled]="userForm.get('mail').value ==''">
+                  Cambiar Email
+                </button>
               </div>
-              <button class="btn bg-red">Guardar Email</button>
-            </div>
-            <div fxLayout="column" class="mr30">
-              <label>Nro Cuenta Claro:</label>
-              <input class="input-st" disabled value="{{userData?.ns2fixedAccount}}">
-            </div>
-            <div fxLayout="column" class="mr30">
-              <label>Nombre:</label>
-              <input class="input-st" disabled value="{{userData?.ns2firstName}}">
-            </div>
-            <div fxLayout="column" class="mr30">
-              <label>Apellido:</label>
-              <input class="input-st" disabled value="{{userData?.ns2lastName}}">
-            </div>
-            <div fxLayout="column" class="mr30">
-              <label>Medio de pago:</label>
-              <input class="input-st" disabled value="{{userData?.ns2providerId}}">
-            </div>
-            <div fxLayout="column" class="mr30">
-              <label>No de cuenta:</label>
-              <input class="input-st" disabled value="{{userData?.ns2customerId}}">
-            </div>
-            <div fxLayout="column">
-              <label>Id interno del usuario:</label>
-              <input class="input-st" disabled value="{{userData?.ns2idNumber}}">
-            </div>
-            <button class="btn bg-blue">Cambiar clave</button>
+              <div fxLayout="column" class="mr30">
+                <label>Nombre:</label>
+                <input class="input-st" formControlName="firstName">
+              </div>
+              <div fxLayout="row" fxLayoutAlign="start end" fxLayoutGap="15px" class="mr30">
+                <div fxLayout="column" class="mr30">
+                  <label>Apellido:</label>
+                  <input class="input-st" formControlName="lastName">
+                </div>
+                <button #btnNames class="{{userForm.get('firstName').value =='' || userForm.get('lastName').value ==''?'bg-light-grey':'bg-red'}} btn"
+                (click)="modifyNames(userData)" fxFlex="130px"
+                [disabled]="userForm.get('firstName').value =='' || userForm.get('lastName').value ==''">
+                  Cambiar Nombres
+                </button>
+              </div>
+              <div fxLayout="column" class="mr30">
+                <label>Nro Cuenta Claro:</label>
+                <input class="input-st" disabled value="{{userData?.fixedAccount}}">
+              </div>
+              <div fxLayout="column" class="mr30">
+                <label>Medio de pago:</label>
+                <input class="input-st" disabled value="{{userData?.providerId}}">
+              </div>
+              <div fxLayout="column" class="mr30">
+                <label>No de cuenta:</label>
+                <input class="input-st" disabled value="{{userData?.customerId}}">
+              </div>
+              <div fxLayout="column">
+                <label>Id interno del usuario:</label>
+                <input class="input-st" disabled value="{{userData?.idNumber}}">
+              </div>
+              <button class="btn bg-blue">Cambiar clave</button>
+            </form>
           </mat-card>
           <div fxLayout="row" fxLayoutAlign="center center">
             <button class="btn bg-gray mt15">Eliminar cuenta del usuario</button>
