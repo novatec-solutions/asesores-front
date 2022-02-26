@@ -11,39 +11,43 @@ export class enums{
     }
     public static table(title:string){
         switch(title){
-            case 'title':
-                return 'Titulo';
-            case 'ipUser':
-                return 'IP usuario';
             case 'lastTime':
                 return 'Último tiempo de visualización';
             case 'maxTime':
                 return 'Tiempo máximo de visualización';
-            case 'highDate':
-                return 'Fecha de Alta';
-            case 'dateExpiry':
-                return 'Fecha de Expiración';
-            case 'price':
-                return 'Precio';
-            case 'payMethod':
-                return 'Medio de pago';
             case 'actions':
                 return 'Acciones';
-            case 'origin':
+            // Suscripciones
+            case 'descripcion':
+                return 'Titulo';
+            case 'origen':
                 return 'Origen';
-            case 'paidStatus':
+            case 'ipUsuario':
+                return 'IP usuario';
+            case 'fechaAlta':
+                return 'Fecha de Alta';
+            case 'fechaExpiracion':
+                return 'Fecha de Expiración';
+            case 'precio':
+                return 'Precio';
+            case 'medioPago':
+                return 'Medio de pago';
+            case 'medioPago':
+                return 'Medio de pago';
+            case 'estadoPago':
                 return 'Estado pago';
             case 'payDetail':
                 return 'Detalle abono';
-            case 'actionDetail':
+            case 'detalleAccion':
                 return 'Detalle acción';
-            case 'device':
+            // Dispositivos
+            case 'tipoDispositivo':
                 return 'Dispositivo';
-            case 'name':
+            case 'nombreDispositivo':
                 return 'Nombre';
-            case 'serial':
+            case 'idDispositivo':
                 return 'Product ID / Serial';
-            case 'actDate':
+            case 'fechaActivacion':
                 return 'Fecha de activación';
         }
     }
