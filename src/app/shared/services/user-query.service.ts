@@ -39,6 +39,14 @@ export class UserQueryService {
       catchError(this.errorHandl)) 
   }
 
+  modify_user_mail(data:any): Observable<any> {
+    this.temp = this.baseUrl + "Landing-Asesores/ModificarCorreo/";
+
+    return this.http.post<any>(this.temp, data).pipe( 
+      retry(1), 
+      catchError(this.errorHandl)) 
+  }
+
   errorHandl(error:any) {
     return throwError(error);
   }
