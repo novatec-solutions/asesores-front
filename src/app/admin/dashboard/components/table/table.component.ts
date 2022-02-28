@@ -10,7 +10,7 @@ import { enums } from 'src/app/shared/enumText';
 })
 export class TableComponent implements OnInit {
   @Input() dataForTable;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   dataSource;
   ELEMENT_DATA = [];
   displayedColumns = [];
