@@ -101,7 +101,7 @@
                 <label>Id interno del usuario:</label>
                 <input class="input-st" disabled value="{{userData?.idNumber}}">
               </div>
-              <button class="btn bg-blue">Cambiar clave</button>
+              <button class="btn bg-blue" (click)="changePassword()">Cambiar clave</button>
             </form>
           </mat-card>
           <div fxLayout="row" fxLayoutAlign="center center">
@@ -114,17 +114,7 @@
             <mat-panel-title class="card-title"><b>Alquileres del usuario</b></mat-panel-title>
           </mat-expansion-panel-header>
           <div fxFlex fxLayout="column" fxLayoutGap="20px">
-            <mat-card fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="18px">
-              <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="7px">
-                <mat-label class="card-label">Fecha desde:</mat-label>
-                <app-calendar (selectedDate)="dateChange('start',$event)"></app-calendar>
-              </div>
-              <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="7px">
-                <mat-label class="card-label">Fecha hasta:</mat-label>
-                <app-calendar (selectedDate)="dateChange('end',$event)"></app-calendar>
-              </div>
-              <button class="btn bg-red">Enviar</button>
-            </mat-card>
+            <app-calendar (selectedDate)="dateChange($event)"></app-calendar>
             <app-table dataForTable="{{dataTableAux1}}"></app-table>
           </div>
           
@@ -134,17 +124,7 @@
             <mat-panel-title class="card-title"><b>Suscripciones del usuario</b></mat-panel-title>
           </mat-expansion-panel-header>
           <div fxFlex fxLayout="column" fxLayoutGap="20px">
-            <mat-card fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="18px">
-              <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="7px">
-                <mat-label class="card-label">Fecha desde:</mat-label>
-                <app-calendar (selectedDate)="dateChange('start',$event)"></app-calendar>
-              </div>
-              <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="7px">
-                <mat-label class="card-label">Fecha hasta:</mat-label>
-                <app-calendar (selectedDate)="dateChange('end',$event)"></app-calendar>
-              </div>
-              <button class="btn bg-red">Enviar</button>
-            </mat-card>
+            <app-calendar (selectedDate)="dateChange($event)"></app-calendar>
             <app-table dataForTable="{{dataTableAux2}}"></app-table>
           </div>
         </mat-expansion-panel>

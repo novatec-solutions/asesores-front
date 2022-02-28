@@ -142,6 +142,22 @@ export class HomeComponent implements OnInit {
   modifyNames(data){
     if(this.userForm.controls.firstName.value !='' && this.userForm.controls.lastName.value !=''){
       this.disableBtn(this.btnNames);
+      const param = {data :{
+        customerId: data.customerId,
+        providerId: data.providerId,
+        idNumber: data.idNumber,
+        firstName: this.userForm.controls.firstName.value,
+        lastName: this.userForm.controls.lastName.value
+      }};
+      this.UserQueryService.change_usernames(param).subscribe( res => {
+        const msj = res.error>0 ? "Se ha producido un error" : "El nombre y apellido se cambiaron con éxito";
+        const dialogRef = this.dialog.open(DialogComponent, { 
+          width: '250px',
+          data: {text: msj},
+        });
+        dialogRef.afterClosed();
+        this.activateBtn(this.btnNames);
+      });
     }
   }
   
@@ -209,7 +225,15 @@ export class HomeComponent implements OnInit {
     }   
   }
 
-  dateChange(type, date){}
+  dateChange(date){}
+
+  changePassword(){
+    const dialogRef = this.dialog.open(DialogComponent, { 
+      width: '250px',
+      data: {text: "Se enviara un mensaje de recuperación al correo electrónico registrado en la búsqueda."},
+    });
+    dialogRef.afterClosed();
+  }
 }
 
 

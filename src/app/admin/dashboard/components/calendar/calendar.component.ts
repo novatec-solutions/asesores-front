@@ -10,18 +10,22 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 })
 export class CalendarComponent implements OnInit {
   @Output() selectedDate=new EventEmitter<string>();
-  dateIni;
+  dateStart;
+  dateEnd;
   currentDate = new Date();
 
-  constructor(private dateAdapter: DateAdapter<any>) { }
+  constructor(private dateAdapter: DateAdapter<any>) { 
+    this.dateStart = new FormControl(new Date(this.currentDate.getFullYear(), (this.currentDate.getMonth()-4), 1));
+    this.dateEnd = new FormControl(new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate()));
+    this.sendDate();
+  }
 
   ngOnInit(): void {
     this.dateAdapter.setLocale('es');
-    this.dateIni = new FormControl(new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate()));
   }
 
-  addEvent(event: MatDatepickerInputEvent<Date>){
-    this.selectedDate.emit(JSON.stringify(`${event.value.getDate()}/${event.value.getMonth()+1}/${event.value.getFullYear()}`));
+  sendDate(){
+    this.selectedDate.emit(JSON.stringify({"start": this.dateStart.value.toISOString(), "end": this.dateEnd.value.toISOString()}));
   }
 
 }

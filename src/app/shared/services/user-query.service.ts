@@ -90,7 +90,9 @@ export class UserQueryService {
             "providerId": "PA00002812",
             "iccidManager": "AMCOCO",
             "key": "CUSTOMERID",
-            "value": "6666869"
+            "value": "6666869", 
+            "startDate": "2021-01-20T16:18:05Z",
+            "endDate": "2021-02-31T16:18:05Z"
         }
     };
     const url = this.baseUrl + "Landing-Asesores/ConsultarSuscripcionUsuario/";
@@ -103,6 +105,14 @@ export class UserQueryService {
           subscriptions
         }))
       ); 
+  }
+
+  change_usernames(data:any): Observable<any> {
+    this.temp = this.baseUrl + "Landing-Asesores/ActualizarNombreApellido/";
+
+    return this.http.post<any>(this.temp, data).pipe( 
+      retry(1), 
+      catchError(this.errorHandl)) 
   }
 
   errorHandl(error:any) {
