@@ -5,6 +5,8 @@ import { enums } from 'src/app/shared/enumText';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../components/dialog/dialog.component';
 import { UserQueryService } from '../../../shared/services/user-query.service';
+import { map, mergeMap } from 'rxjs/operators';
+import { mapDevices, mapSubscriptions } from '../mappers/user-query.mapper';
 
 @Component({
   selector: 'app-home',
@@ -32,15 +34,12 @@ export class HomeComponent implements OnInit {
   displayedColumns1 = ['title','ipUser','lastTime','maxTime','highDate','dateExpiry','price','payMethod','actions'];
   ELEMENT_DATA1 = [{title:"",ipUser:"",lastTime:"",maxTime:"",highDate:"",dateExpiry:"",price:"",payMethod:"",actions:""}];
 
-  displayedColumns2 = ['title','origin','ipUser','highDate','dateExpiry','price','payMethod','paidStatus','payDetail','actionDetail','actions'];
-  ELEMENT_DATA2 = [
-    {title:"Suscripción",origin:"Paquete",ipUser:"181.89.12.543",highDate:"04/12/2021",dateExpiry:"04/12/2022",price:"$ 0",payMethod:"Claro Móvil",paidStatus:"Promoción",payDetail:"Ver",actionDetail:"",actions:"Cancelar"},
-    {title:"Suscripción",origin:"Paquete",ipUser:"181.89.12.543",highDate:"04/12/2021",dateExpiry:"04/12/2022",price:"$ 0",payMethod:"Claro Móvil",paidStatus:"Promoción",payDetail:"Ver",actionDetail:"",actions:"Cancelar"}];
+  displayedColumns2 = ['descripcion','origen','ipUsuario','fechaAlta','fechaExpiracion','precio','medioPago','estadoPago','payDetail','detalleAccion','actions'];
+  ELEMENT_DATA2 = [];
   
-  displayedColumns3 = ['device','name','serial','actDate'];
-  ELEMENT_DATA3 = [{device:"web0s",name:"Dispositivo 3",serial:"235b3d2b-b106-6bf5-a21b-dcacf3f57e43",actDate:"30/04/2020"},
-    {device:"web0s",name:"Dispositivo 3",serial:"235b3d2b-b106-6bf5-a21b-dcacf3f57e43",actDate:"30/04/2020"}];
-
+  displayedColumns3 = ['tipoDispositivo','nombreDispositivo','idDispositivo','fechaActivacion'];
+  ELEMENT_DATA3 = [];
+  
   constructor(public fb: FormBuilder, 
               public dialog: MatDialog,
               private UserQueryService: UserQueryService,
@@ -51,29 +50,72 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.dataTableAux1 = JSON.stringify({columns: this.displayedColumns1, elements: this.ELEMENT_DATA1});
+    this.setDevicesData([]);
+    this.setSubscriptionsData([]);
+  }
+
+  private setSubscriptionsData(subscriptions){
+    this.ELEMENT_DATA2 = subscriptions;
     this.dataTableAux2 = JSON.stringify({columns: this.displayedColumns2, elements: this.ELEMENT_DATA2});
+  }
+
+  private setDevicesData(devicesData){
+    this.ELEMENT_DATA3 = devicesData;
     this.dataTableAux3 = JSON.stringify({columns: this.displayedColumns3, elements: this.ELEMENT_DATA3});
+  }
+
+  private getSelectedData(valor){
+    if(this.email){
+      return {
+        key: "emailAddress",
+        value: valor,
+        method: 'user_data_by_email'
+      };
+    }
+
+    if(this.movil){
+      return {
+        key: "msisdn",
+        value: `57${valor}`,
+        method: 'user_data_by_mobile_line'
+      }
+    }
+    
+    if(this.hogar){
+      return {
+        key: "fixedAccount",
+        value: valor,
+        method: 'user_data_by_home_account'
+      }
+    }
   }
 
   onSearchUser(){
     this.loading = true;
     const valor = this.searchForm.value.lookupValue;
-    if(this.email){
-      const request = { "data":{ "emailAddress": valor, "state": "A" } };
-      this.UserQueryService.user_data_by_email(request).subscribe( res => {  
-        this.validateData(res);
-      });
-    }else if(this.hogar){
-      const request = { "data": { "fixedAccount": valor, "state": "A" } };
-      this.UserQueryService.user_data_by_home_account(request).subscribe( res => {  
-        this.validateData(res);
-      });
-    }else if(this.movil){
-      const request = { "data":{ "msisdn": '57'+valor, "state": "A" } };
-      this.UserQueryService.user_data_by_mobile_line(request).subscribe( res => {  
-        this.validateData(res);
-      });
-    }
+    const { key, value, method } = this.getSelectedData(valor);
+
+    const request = { 
+        "data": { 
+          [ key ]: value,
+          "state": "A" 
+        }
+     };
+
+    this.UserQueryService[method](request).pipe(
+      map( userdata => ({ userdata })),
+      mergeMap( res => this.UserQueryService.find_subscription_by_email(res)),
+      mergeMap( res => this.UserQueryService.find_devices_by_email(res))
+    )
+    .subscribe( ({ userdata, subscriptions, devices }) => {
+      this.validateData(userdata);
+      
+      const subscriptionData = mapSubscriptions(subscriptions);
+      this.setSubscriptionsData(subscriptionData);
+
+      const devicesData = mapDevices(devices);
+      this.setDevicesData(devicesData);
+    });
   }
 
   modifyMail(data){

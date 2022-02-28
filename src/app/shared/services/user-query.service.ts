@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { retry, catchError } from 'rxjs/operators';
+import { retry, catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -45,6 +45,64 @@ export class UserQueryService {
     return this.http.post<any>(this.temp, data).pipe( 
       retry(1), 
       catchError(this.errorHandl)) 
+  }
+
+  find_devices_by_email(userdata:any): Observable<any> {
+    const data = {
+        "data": {
+            "Username": "PA00003102",
+            "Password": "aMc0Co3!",
+            "invokeMethod": "consultardispositivoscliente",
+            "correlatorId": "00000232550e8400e29b41d4a716446655440799",
+            "countryId": "CO",
+            "employeeId": "9984",
+            "origin": "MI_CLARO",
+            "serviceName": "consultardispositivoscliente",
+            "providerId": "PA00002812",
+            "iccidManager": "AMCOCO",
+            "key": "CUSTOMERID",
+            "value": "6666869"
+        }
+    };
+    const url = this.baseUrl + "Landing-Asesores/ConsultarDispositivos/";
+
+    return this.http.post<any>(url, data).pipe( 
+      retry(1), 
+      catchError(this.errorHandl),
+      map( devices => ({
+        ...userdata,
+        devices
+      }))
+    ); 
+  }
+
+  find_subscription_by_email(userdata:any): Observable<any> {
+    const data = {
+        "data": {
+            "Username": "PA00003102",
+            "Password": "aMc0Co3!",
+            "invokeMethod": "consultardatoscliente",
+            "correlatorId": "00000232550e8400e29b41d4a716446655449899",
+            "countryId": "CO",
+            "employeeId": "567shsgww3",
+            "origin": "MI_CLARO",
+            "serviceName": "consultardatoscliente",
+            "providerId": "PA00002812",
+            "iccidManager": "AMCOCO",
+            "key": "CUSTOMERID",
+            "value": "6666869"
+        }
+    };
+    const url = this.baseUrl + "Landing-Asesores/ConsultarSuscripcionUsuario/";
+    
+    return this.http.post<any>(url, data).pipe( 
+        retry(1), 
+        catchError(this.errorHandl),
+        map( subscriptions => ({
+          ...userdata,
+          subscriptions
+        }))
+      ); 
   }
 
   errorHandl(error:any) {
