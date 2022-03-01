@@ -62,7 +62,7 @@
               <div fxLayout="row" fxLayoutAlign="start end" fxLayoutGap="15px" class="mr30">
                 <div fxLayout="column">
                   <label>Email:</label>
-                  <input formControlName="mail" class="input-st">
+                  <input class="input-st w-250" formControlName="mail">
                 </div>
                 <button #btnMail class="{{userForm.get('mail').value ==''?'bg-light-grey':'bg-red'}} btn" 
                 (click)="modifyMail(userData)" fxFlex="130px" 
@@ -72,12 +72,12 @@
               </div>
               <div fxLayout="column" class="mr30">
                 <label>Nombre:</label>
-                <input class="input-st" formControlName="firstName">
+                <input class="input-st w-250" formControlName="firstName">
               </div>
               <div fxLayout="row" fxLayoutAlign="start end" fxLayoutGap="15px" class="mr30">
                 <div fxLayout="column" class="mr30">
                   <label>Apellido:</label>
-                  <input class="input-st" formControlName="lastName">
+                  <input class="input-st w-250" formControlName="lastName">
                 </div>
                 <button #btnNames class="{{userForm.get('firstName').value =='' || userForm.get('lastName').value ==''?'bg-light-grey':'bg-red'}} btn"
                 (click)="modifyNames(userData)" fxFlex="130px"
@@ -91,15 +91,15 @@
               </div>
               <div fxLayout="column" class="mr30">
                 <label>Medio de pago:</label>
-                <input class="input-st" disabled value="{{userData?.providerId}}">
+                <input class="input-st" disabled value="{{getPaymentType(userData?.paymentType)}}">
               </div>
               <div fxLayout="column" class="mr30">
                 <label>No de cuenta:</label>
-                <input class="input-st" disabled value="{{userData?.customerId}}">
+                <input class="input-st" disabled value="{{userData?.idNumber}}">
               </div>
               <div fxLayout="column">
                 <label>Id interno del usuario:</label>
-                <input class="input-st" disabled value="{{userData?.idNumber}}">
+                <input class="input-st" disabled value="{{userData?.customerId}}">
               </div>
               <button class="btn bg-blue" (click)="changePassword()">Cambiar clave</button>
             </form>
