@@ -14,7 +14,7 @@ export class TableComponent implements OnInit {
   dataSource;
   ELEMENT_DATA = [];
   displayedColumns = [];
-  
+
   constructor() { }
 
   ngOnInit(): void {}

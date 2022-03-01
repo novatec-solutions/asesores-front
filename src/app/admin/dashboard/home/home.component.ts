@@ -34,10 +34,10 @@ export class HomeComponent implements OnInit {
   displayedColumns1 = ['title','ipUser','lastTime','maxTime','highDate','dateExpiry','price','payMethod','actions'];
   ELEMENT_DATA1 = [{title:"",ipUser:"",lastTime:"",maxTime:"",highDate:"",dateExpiry:"",price:"",payMethod:"",actions:""}];
 
-  displayedColumns2 = ['descripcion','origen','ipUsuario','fechaAlta','fechaExpiracion','precio','medioPago','estadoPago','payDetail','detalleAccion','actions'];
+  displayedColumns2 = ['descripcion','ipUsuario','fechaAlta','fechaExpiracion','precio','medioPago','estadoPago','payDetail','detalleAccion','actions'];
   ELEMENT_DATA2 = [];
   
-  displayedColumns3 = ['tipoDispositivo','nombreDispositivo','idDispositivo','fechaActivacion'];
+  displayedColumns3 = ['tipoDispositivo','nombreDispositivo','fechaActivacion'];
   ELEMENT_DATA3 = [];
   
   constructor(public fb: FormBuilder, 
@@ -127,15 +127,22 @@ export class HomeComponent implements OnInit {
         idNumber: data.idNumber,
         emailAddress: this.userForm.controls.mail.value
       }};
-      this.UserQueryService.modify_user_mail(param).subscribe( res => {
-        const msj = res.error>0 ? "Se ha producido un error" : "El correo ha sido cambiado con éxito";
-        const dialogRef = this.dialog.open(DialogComponent, { 
-          width: '250px',
-          data: {text: msj},
+
+      let msj = '';
+      if((this.userForm.controls.mail.value).toUpperCase() != (this.userData.emailAddress).toUpperCase()){
+        this.UserQueryService.modify_user_mail(param).subscribe( res => {
+          if(res.error == 0){
+            this.userData.emailAddress = this.userForm.controls.mail.value;
+          }
+          msj = res.error>0 ? "Se ha producido un error" : "El correo ha sido cambiado con éxito";
+          this.showMessage(msj);
+          this.activateBtn(this.btnMail);
         });
-        dialogRef.afterClosed();
+      }else {
+        msj = "Para realizar un cambio de correo, se debe colocar un correo diferente al anterior";
+        this.showMessage(msj);
         this.activateBtn(this.btnMail);
-      });
+      }
     }
   }
 
@@ -149,13 +156,9 @@ export class HomeComponent implements OnInit {
         firstName: this.userForm.controls.firstName.value,
         lastName: this.userForm.controls.lastName.value
       }};
-      this.UserQueryService.change_usernames(param).subscribe( res => {
+      this.UserQueryService.change_client_names(param).subscribe( res => {
         const msj = res.error>0 ? "Se ha producido un error" : "El nombre y apellido se cambiaron con éxito";
-        const dialogRef = this.dialog.open(DialogComponent, { 
-          width: '250px',
-          data: {text: msj},
-        });
-        dialogRef.afterClosed();
+        this.showMessage(msj);
         this.activateBtn(this.btnNames);
       });
     }
@@ -177,11 +180,8 @@ export class HomeComponent implements OnInit {
 
   validateData(data){
     if(data?.error && data?.error > 0){
-      const dialogRef = this.dialog.open(DialogComponent, { 
-        width: '250px',
-        data: {text: 'No hay resultados para los datos ingresados en la búsqueda.'},
-      });
-      dialogRef.afterClosed();
+      const msj = 'No hay resultados para los datos ingresados en la búsqueda.';
+      this.showMessage(msj);
       this.loading = false;
     }else{
       this.userData = data.response;
@@ -228,11 +228,39 @@ export class HomeComponent implements OnInit {
   dateChange(date){}
 
   changePassword(){
+    const msj = "Se enviara un mensaje de recuperación al correo electrónico registrado en la búsqueda.";
+    this.showMessage(msj);
+
+    const param = {data:{
+      Username: "PA00003102",
+      Password: "aMc0Co3!B",
+      transactionId: "202202258103435",
+      invokeMethod: "modificaremail",
+      correlatorId: "00000232550e8400e29b41d4a716446655440080",
+      countryId: "CO",
+      userId: "MI_CLARO",
+      employeeId: "6666869",
+      origin: "MI_CLARO",
+      serviceName: "modificaremail",
+      providerId: "PA00002812",
+      iccidManager: "AMCOCO",
+      value: this.userData.customerId,
+  }};
+    
+    this.UserQueryService.change_client_password(param).subscribe( res => {});
+  }
+
+  getPaymentType(type){
+    return type == 2 ? 'Factura Claro Hogar' : type == 1 ? 'Factura Claro Movil' : '';
+  }
+
+  
+  showMessage(msj){
     const dialogRef = this.dialog.open(DialogComponent, { 
       width: '250px',
-      data: {text: "Se enviara un mensaje de recuperación al correo electrónico registrado en la búsqueda."},
+      data: {text: msj},
     });
-    dialogRef.afterClosed();
+    dialogRef.afterClosed(); 
   }
 }
 

@@ -61,7 +61,7 @@ export class UserQueryService {
             "providerId": "PA00002812",
             "iccidManager": "AMCOCO",
             "key": "CUSTOMERID",
-            "value": "6666869"
+            "value": userdata.userdata.response.customerId
         }
     };
     const url = this.baseUrl + "Landing-Asesores/ConsultarDispositivos/";
@@ -77,25 +77,25 @@ export class UserQueryService {
   }
 
   find_subscription_by_email(userdata:any): Observable<any> {
-    const data = {
-        "data": {
-            "Username": "PA00003102",
-            "Password": "aMc0Co3!",
-            "invokeMethod": "consultardatoscliente",
-            "correlatorId": "00000232550e8400e29b41d4a716446655449899",
-            "countryId": "CO",
-            "employeeId": "567shsgww3",
-            "origin": "MI_CLARO",
-            "serviceName": "consultardatoscliente",
-            "providerId": "PA00002812",
-            "iccidManager": "AMCOCO",
-            "key": "CUSTOMERID",
-            "value": "6666869", 
-            "startDate": "2021-01-20T16:18:05Z",
-            "endDate": "2021-02-31T16:18:05Z"
-        }
-    };
     const url = this.baseUrl + "Landing-Asesores/ConsultarSuscripcionUsuario/";
+    const data = {
+      "data": {
+          "Username": "PA00003102",
+          "Password": "aMc0Co3!",
+          "invokeMethod": "consultardatoscliente",
+          "correlatorId": "00000232550e8400e29b41d4a716446655449899",
+          "countryId": "CO",
+          "employeeId": "567shsgww3",
+          "origin": "MI_CLARO",
+          "serviceName": "consultardatoscliente",
+          "providerId": "PA00002812",
+          "iccidManager": "AMCOCO",
+          "key": "CUSTOMERID", 
+          "value": userdata.userdata.response.customerId,
+          "startDate": "2021-01-20T16:18:05Z",
+          "endDate": "2021-02-31T16:18:05Z"
+      }
+    };
     
     return this.http.post<any>(url, data).pipe( 
         retry(1), 
@@ -107,13 +107,22 @@ export class UserQueryService {
       ); 
   }
 
-  change_usernames(data:any): Observable<any> {
+  change_client_names(data:any): Observable<any> {
     this.temp = this.baseUrl + "Landing-Asesores/ActualizarNombreApellido/";
 
     return this.http.post<any>(this.temp, data).pipe( 
       retry(1), 
       catchError(this.errorHandl)) 
   }
+
+  
+change_client_password(data:any){
+  this.temp = this.baseUrl + "Landing-Asesores/RecuperarContrasena/";
+
+    return this.http.post<any>(this.temp, data).pipe( 
+      retry(1), 
+      catchError(this.errorHandl)) 
+}
 
   errorHandl(error:any) {
     return throwError(error);
