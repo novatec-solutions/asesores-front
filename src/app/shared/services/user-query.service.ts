@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { FormControl } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -78,6 +79,17 @@ export class UserQueryService {
 
   find_subscription_by_email(userdata:any): Observable<any> {
     const url = this.baseUrl + "Landing-Asesores/ConsultarSuscripcionUsuario/";
+    const f = new Date();
+    let startD: string;
+    let endD: string;
+    if(userdata.userdata.response.startDate){
+      startD = userdata.userdata.response.startDate;
+      endD = userdata.userdata.response.endDate;
+    }else{
+      startD =  new Date(f.getFullYear(), (f.getMonth()-4), 1).toISOString();
+      endD = f.toISOString();
+    }
+
     const data = {
       "data": {
           "Username": "PA00003102",
@@ -92,8 +104,8 @@ export class UserQueryService {
           "iccidManager": "AMCOCO",
           "key": "CUSTOMERID", 
           "value": userdata.userdata.response.customerId,
-          "startDate": "2021-01-20T16:18:05Z",
-          "endDate": "2021-02-31T16:18:05Z"
+          "startDate": startD,
+          "endDate": endD
       }
     };
     
