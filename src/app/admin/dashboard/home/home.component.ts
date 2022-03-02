@@ -134,6 +134,8 @@ export class HomeComponent implements OnInit {
         this.showMessage(res.response);
         this.activateBtn(this.btnMail);
       });
+        
+    
     }
   }
 
