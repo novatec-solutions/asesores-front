@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -78,6 +79,11 @@ export class UserQueryService {
 
   find_subscription_by_email(userdata:any): Observable<any> {
     const url = this.baseUrl + "Landing-Asesores/ConsultarSuscripcionUsuario/";
+    const { startDate, endDate } = userdata.userdata.response;
+
+    const startD =  startDate ? startDate:  moment().subtract(4, 'M').format("YYYY-MM-DDTHH:mm:ss[Z]");
+    const endD = endDate ? endDate : moment().format("YYYY-MM-DDTHH:mm:ss[Z]");
+
     const data = {
       "data": {
           "Username": "PA00003102",
@@ -92,8 +98,8 @@ export class UserQueryService {
           "iccidManager": "AMCOCO",
           "key": "CUSTOMERID", 
           "value": userdata.userdata.response.customerId,
-          "startDate": "2021-01-20T16:18:05Z",
-          "endDate": "2021-02-31T16:18:05Z"
+          "startDate": startD,
+          "endDate": endD
       }
     };
     

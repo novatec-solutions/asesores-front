@@ -5,7 +5,7 @@ import { enums } from 'src/app/shared/enumText';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../components/dialog/dialog.component';
 import { UserQueryService } from '../../../shared/services/user-query.service';
-import { map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap, tap } from 'rxjs/operators';
 import { mapDevices, mapSubscriptions } from '../mappers/user-query.mapper';
 
 @Component({
@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   email:boolean = false;
   movil:boolean = false;
   hogar:boolean = false;
-  lookupValue: string;
+  lookupValue = "";
   sType: string = '';
   dataTableAux1;
   dataTableAux2;
@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit {
   userData: any;
   searchForm: FormGroup;
   userForm: FormGroup;
+  dataRange: any;
 
   displayedColumns1 = ['title','ipUser','lastTime','maxTime','highDate','dateExpiry','price','payMethod','actions'];
   ELEMENT_DATA1 = [{title:"",ipUser:"",lastTime:"",maxTime:"",highDate:"",dateExpiry:"",price:"",payMethod:"",actions:""}];
@@ -91,6 +92,7 @@ export class HomeComponent implements OnInit {
   }
 
   onSearchUser(){
+    this.userData = {};
     this.loading = true;
     const valor = this.searchForm.value.lookupValue;
     const { key, value, method } = this.getSelectedData(valor);
@@ -104,12 +106,12 @@ export class HomeComponent implements OnInit {
 
     this.UserQueryService[method](request).pipe(
       map( userdata => ({ userdata })),
+      tap( data => { this.dataRange = data }),
       mergeMap( res => this.UserQueryService.find_subscription_by_email(res)),
       mergeMap( res => this.UserQueryService.find_devices_by_email(res))
     )
     .subscribe( ({ userdata, subscriptions, devices }) => {
       this.validateData(userdata);
-      
       const subscriptionData = mapSubscriptions(subscriptions);
       this.setSubscriptionsData(subscriptionData);
 
@@ -168,11 +170,8 @@ export class HomeComponent implements OnInit {
   
 
   validateData(data){
-    if(data?.error && data?.error > 0){
-      const msj = 'No hay resultados para los datos ingresados en la búsqueda.';
-      this.showMessage(msj);
-      this.loading = false;
-    }else{
+    this.userData = {};
+    if(data.error == 0){
       this.userData = data.response;
       this.userForm.setValue({
         mail: this.userData.emailAddress,
@@ -181,6 +180,11 @@ export class HomeComponent implements OnInit {
       });
       this.loading = false;
       this.visible = true;
+    }else{
+      this.loading = false;
+      this.visible = false;
+      const msj = 'No hay resultados para los datos ingresados en la búsqueda.';
+      this.showMessage(msj);
     }
   }
 
@@ -214,7 +218,17 @@ export class HomeComponent implements OnInit {
     }   
   }
 
-  dateChange(date){}
+  dateChange(date:any){ 
+    this.dataRange.userdata.response.startDate = date.start;
+    this.dataRange.userdata.response.endDate = date.end;
+    this.UserQueryService.find_subscription_by_email(this.dataRange).subscribe( res => {
+      if(res.subscriptions.error == 0){
+        const subscriptionData = mapSubscriptions(res.subscriptions);
+        this.setSubscriptionsData(subscriptionData);
+      }
+    });
+    
+  }
 
   changePassword(){
     const msj = "Se enviara un mensaje de recuperación al correo electrónico registrado en la búsqueda.";
