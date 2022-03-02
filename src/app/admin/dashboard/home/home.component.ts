@@ -129,22 +129,13 @@ export class HomeComponent implements OnInit {
         idNumber: data.idNumber,
         emailAddress: this.userForm.controls.mail.value
       }};
-
-      let msj = '';
-      if((this.userForm.controls.mail.value).toUpperCase() != (this.userData.emailAddress).toUpperCase()){
-        this.UserQueryService.modify_user_mail(param).subscribe( res => {
-          if(res.error == 0){
-            this.userData.emailAddress = this.userForm.controls.mail.value;
-          }
-          msj = res.error>0 ? "Se ha producido un error" : "El correo ha sido cambiado con éxito";
-          this.showMessage(msj);
-          this.activateBtn(this.btnMail);
-        });
-      }else {
-        msj = "Para realizar un cambio de correo, se debe colocar un correo diferente al anterior";
-        this.showMessage(msj);
+     
+      this.UserQueryService.modify_user_mail(param).subscribe( res => {
+        this.showMessage(res.response);
         this.activateBtn(this.btnMail);
-      }
+      });
+        
+    
     }
   }
 
