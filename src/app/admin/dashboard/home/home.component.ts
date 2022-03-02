@@ -134,6 +134,8 @@ export class HomeComponent implements OnInit {
         this.showMessage(res.response);
         this.activateBtn(this.btnMail);
       });
+        
+    
     }
   }
 
@@ -226,8 +228,7 @@ export class HomeComponent implements OnInit {
         const subscriptionData = mapSubscriptions(res.subscriptions);
         this.setSubscriptionsData(subscriptionData);
       }
-    });
-    
+    });    
   }
 
   changePassword(){

@@ -79,8 +79,8 @@ export class UserQueryService {
 
   find_subscription_by_email(userdata:any): Observable<any> {
     const url = this.baseUrl + "Landing-Asesores/ConsultarSuscripcionUsuario/";
-    const { startDate, endDate } = userdata.userdata.response;
 
+    const { startDate, endDate } = userdata.userdata.response;
     const startD =  startDate ? startDate:  moment().subtract(4, 'M').format("YYYY-MM-DDTHH:mm:ss[Z]");
     const endD = endDate ? endDate : moment().format("YYYY-MM-DDTHH:mm:ss[Z]");
 
