@@ -5,7 +5,7 @@ import { enums } from 'src/app/shared/enumText';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../components/dialog/dialog.component';
 import { UserQueryService } from '../../../shared/services/user-query.service';
-import { map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap, tap } from 'rxjs/operators';
 import { mapDevices, mapSubscriptions } from '../mappers/user-query.mapper';
 
 @Component({
@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit {
   userData: any;
   searchForm: FormGroup;
   userForm: FormGroup;
+  dataRange: any;
 
   displayedColumns1 = ['title','ipUser','lastTime','maxTime','highDate','dateExpiry','price','payMethod','actions'];
   ELEMENT_DATA1 = [{title:"",ipUser:"",lastTime:"",maxTime:"",highDate:"",dateExpiry:"",price:"",payMethod:"",actions:""}];
@@ -104,6 +105,7 @@ export class HomeComponent implements OnInit {
 
     this.UserQueryService[method](request).pipe(
       map( userdata => ({ userdata })),
+      tap( data => { this.dataRange = data }),
       mergeMap( res => this.UserQueryService.find_subscription_by_email(res)),
       mergeMap( res => this.UserQueryService.find_devices_by_email(res))
     )
@@ -214,7 +216,16 @@ export class HomeComponent implements OnInit {
     }   
   }
 
-  dateChange(date){}
+  dateChange(date){ 
+    const fecha = JSON.parse(date);
+    this.dataRange.userdata.response.startDate = fecha.start;
+    this.dataRange.userdata.response.endDate = fecha.end;
+    this.UserQueryService.find_subscription_by_email(this.dataRange).subscribe( res => {
+      const subscriptionData = mapSubscriptions(res.subscriptions);
+      this.setSubscriptionsData(subscriptionData);
+    });
+    
+  }
 
   changePassword(){
     const msj = "Se enviara un mensaje de recuperación al correo electrónico registrado en la búsqueda.";
