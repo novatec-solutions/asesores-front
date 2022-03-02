@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { FormControl } from '@angular/forms';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -79,16 +79,10 @@ export class UserQueryService {
 
   find_subscription_by_email(userdata:any): Observable<any> {
     const url = this.baseUrl + "Landing-Asesores/ConsultarSuscripcionUsuario/";
-    const f = new Date();
-    let startD: string;
-    let endD: string;
-    if(userdata.userdata.response.startDate){
-      startD = userdata.userdata.response.startDate;
-      endD = userdata.userdata.response.endDate;
-    }else{
-      startD =  new Date(f.getFullYear(), (f.getMonth()-4), 1).toISOString();
-      endD = f.toISOString();
-    }
+
+    const { startDate, endDate } = userdata.userdata.response;
+    const startD =  startDate ? startDate:  moment().subtract(4, 'M').format("YYYY-MM-DDTHH:mm:ss[Z]");
+    const endD = endDate ? endDate : moment().format("YYYY-MM-DDTHH:mm:ss[Z]");
 
     const data = {
       "data": {

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-calendar',
@@ -9,7 +9,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
   styleUrls: ['./calendar.component.scss']
 })
 export class CalendarComponent implements OnInit {
-  @Output() selectedDate=new EventEmitter<string>();
+  @Output() selectedDate=new EventEmitter<any>();
   dateStart;
   dateEnd;
   currentDate = new Date();
@@ -25,7 +25,9 @@ export class CalendarComponent implements OnInit {
   }
 
   sendDate(){
-    this.selectedDate.emit(JSON.stringify({"start": this.dateStart.value.toISOString(), "end": this.dateEnd.value.toISOString()}));
+    this.selectedDate.emit({
+      start: moment(this.dateStart.value).format("YYYY-MM-DDTHH:mm:ss[Z]"), 
+      end: moment(this.dateEnd.value).format("YYYY-MM-DDTHH:mm:ss[Z]")});
   }
 
 }

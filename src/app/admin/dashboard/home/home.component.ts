@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   email:boolean = false;
   movil:boolean = false;
   hogar:boolean = false;
-  lookupValue: string;
+  lookupValue = "";
   sType: string = '';
   dataTableAux1;
   dataTableAux2;
@@ -92,6 +92,7 @@ export class HomeComponent implements OnInit {
   }
 
   onSearchUser(){
+    this.userData = {};
     this.loading = true;
     const valor = this.searchForm.value.lookupValue;
     const { key, value, method } = this.getSelectedData(valor);
@@ -111,7 +112,6 @@ export class HomeComponent implements OnInit {
     )
     .subscribe( ({ userdata, subscriptions, devices }) => {
       this.validateData(userdata);
-      
       const subscriptionData = mapSubscriptions(subscriptions);
       this.setSubscriptionsData(subscriptionData);
 
@@ -172,11 +172,8 @@ export class HomeComponent implements OnInit {
   
 
   validateData(data){
-    if(data?.error && data?.error > 0){
-      const msj = 'No hay resultados para los datos ingresados en la búsqueda.';
-      this.showMessage(msj);
-      this.loading = false;
-    }else{
+    this.userData = {};
+    if(data.error == 0){
       this.userData = data.response;
       this.userForm.setValue({
         mail: this.userData.emailAddress,
@@ -185,6 +182,11 @@ export class HomeComponent implements OnInit {
       });
       this.loading = false;
       this.visible = true;
+    }else{
+      this.loading = false;
+      this.visible = false;
+      const msj = 'No hay resultados para los datos ingresados en la búsqueda.';
+      this.showMessage(msj);
     }
   }
 
@@ -218,15 +220,15 @@ export class HomeComponent implements OnInit {
     }   
   }
 
-  dateChange(date){ 
-    const fecha = JSON.parse(date);
-    this.dataRange.userdata.response.startDate = fecha.start;
-    this.dataRange.userdata.response.endDate = fecha.end;
+  dateChange(date:any){ 
+    this.dataRange.userdata.response.startDate = date.start;
+    this.dataRange.userdata.response.endDate = date.end;
     this.UserQueryService.find_subscription_by_email(this.dataRange).subscribe( res => {
-      const subscriptionData = mapSubscriptions(res.subscriptions);
-      this.setSubscriptionsData(subscriptionData);
-    });
-    
+      if(res.subscriptions.error == 0){
+        const subscriptionData = mapSubscriptions(res.subscriptions);
+        this.setSubscriptionsData(subscriptionData);
+      }
+    });    
   }
 
   changePassword(){
