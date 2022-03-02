@@ -1,16 +1,20 @@
+FROM nginxinc/nginx-unprivileged
 
-FROM nginx:latest
-WORKDIR /dist/src/app
-#RUN pwd
-#RUN ls
+COPY nginx.conf /etc/nginx/nginx.conf
 
-COPY /nginx.conf  /etc/nginx/conf.d/default.conf
+WORKDIR /app
 
-#RUN chown -R nginx /etc/nginx /var/run /run
-#RUN chmod -R a+w /var/run /run /var/cache /var/cache/nginx
+COPY . .
 
-COPY /dist/angular-material-admin /usr/share/nginx/html
+RUN apk update && \
+    apk add nodejs npm make curl g++
 
-EXPOSE 3000
+RUN npm ci && npm run build
 
-USER 100
+RUN rm -rf /usr/share/nginx/html/*
+
+RUN cp -r /app/dist /usr/share/nginx/html
+
+EXPOSE 8080
+
+CMD ["nginx", "-g", "daemon off;"]
