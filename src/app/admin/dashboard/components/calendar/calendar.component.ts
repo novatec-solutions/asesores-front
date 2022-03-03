@@ -12,11 +12,10 @@ export class CalendarComponent implements OnInit {
   @Output() selectedDate=new EventEmitter<any>();
   dateStart;
   dateEnd;
-  currentDate = new Date();
 
   constructor(private dateAdapter: DateAdapter<any>) { 
-    this.dateStart = new FormControl(new Date(this.currentDate.getFullYear(), (this.currentDate.getMonth()-4), 1));
-    this.dateEnd = new FormControl(new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), this.currentDate.getDate()));
+    this.dateStart = new FormControl(moment().subtract(4, 'M').toDate());
+    this.dateEnd = new FormControl(moment().toDate());
     this.sendDate();
   }
 
@@ -27,7 +26,7 @@ export class CalendarComponent implements OnInit {
   sendDate(){
     this.selectedDate.emit({
       start: moment(this.dateStart.value).format("YYYY-MM-DDTHH:mm:ss[Z]"), 
-      end: moment(this.dateEnd.value).format("YYYY-MM-DDTHH:mm:ss[Z]")});
+      end: moment(this.dateEnd.value).format("YYYY-MM-DDT24:59:59[Z]")});
   }
 
 }
