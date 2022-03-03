@@ -81,7 +81,7 @@ export class UserQueryService {
     const url = this.baseUrl + "Landing-Asesores/ConsultarSuscripcionUsuario/";
 
     const { startDate, endDate } = userdata.userdata.response;
-    const startD =  startDate ? startDate:  moment().subtract(4, 'M').format("YYYY-MM-DDTHH:mm:ss[Z]");
+    const startD =  startDate ? startDate:  moment().subtract(4, 'M').format("YYYY-MM-DDT00:00:00[Z]");
     const endD = endDate ? endDate : moment().format("YYYY-MM-DDTHH:mm:ss[Z]");
 
     const data = {

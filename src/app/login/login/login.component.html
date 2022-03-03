@@ -24,6 +24,9 @@
           Iniciar sesión
         </button>
       </div>
+      <div class="spinner-container" *ngIf="loader">
+        <mat-spinner [diameter]="40" [strokeWidth]="10"></mat-spinner>
+      </div>
     </form>
   </div>
 </div>

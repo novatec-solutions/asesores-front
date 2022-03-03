@@ -12,6 +12,7 @@ import { DialogComponent } from '../../admin/dashboard/components/dialog/dialog.
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  loader: boolean = false;
   
   constructor(private router: Router,
     public fb: FormBuilder,
@@ -28,6 +29,7 @@ export class LoginComponent implements OnInit {
   onLogin() {
     if(this.loginForm.valid){
       const data = this.loginForm.value;
+      this.loader = true;
       this.AuthService.loginUser(data).subscribe(res => {
         if(!res.error){
           localStorage.setItem('isLoggedin', 'true');
@@ -40,6 +42,7 @@ export class LoginComponent implements OnInit {
           });
           dialogRef.afterClosed();
         }
+        this.loader = false;
       });
     }
     
