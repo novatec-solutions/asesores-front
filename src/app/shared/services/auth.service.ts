@@ -14,7 +14,7 @@ export class AuthService {
   }
 
   loginUser(data:any): Observable<any> {
-    const url = this.baseUrl + "Landing-Asesores/Login/";
+    const url = this.baseUrl + "Landing-Asesores/Autentica/";
     return this.http.post<any>(url, data);
   }
 }
