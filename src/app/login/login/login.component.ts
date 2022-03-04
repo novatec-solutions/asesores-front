@@ -28,20 +28,21 @@ export class LoginComponent implements OnInit {
 
   onLogin() {
     if(this.loginForm.valid){
-      const data = this.loginForm.value;
+
+      const param = { 
+        data:{
+          usuario: this.loginForm.value.user, //"hector.gutierrez",
+          password: this.loginForm.value.pass, //"123",
+          idApp:"GIT"
+      }};
+
       this.loader = true;
-      this.AuthService.loginUser(data).subscribe(res => {
-        if(!res.error){
-          localStorage.setItem('isLoggedin', 'true');
-          localStorage.setItem('username', res.data.name);
-          this.router.navigate(['/dashboard']);
-        }else{
-          const dialogRef = this.dialog.open(DialogComponent, { 
-            width: '250px',
-            data: {text: res.mensaje},
-          });
-          dialogRef.afterClosed();
-        }
+      
+      this.AuthService.loginUser(param).subscribe(res => {
+        console.log("mensaje:: ", res.response)
+        localStorage.setItem('isLoggedin', 'true');
+        localStorage.setItem('username', 'Marquez');
+        this.router.navigate(['/dashboard']);
         this.loader = false;
       });
     }
