@@ -31,18 +31,25 @@ export class LoginComponent implements OnInit {
 
       const param = { 
         data:{
-          usuario: this.loginForm.value.user, //"hector.gutierrez",
-          password: this.loginForm.value.pass, //"123",
-          idApp:"GIT"
+          usuario: this.loginForm.value.user, 
+          password: this.loginForm.value.pass,
+          idApp:"AMCO"
       }};
 
       this.loader = true;
-      
+
       this.AuthService.loginUser(param).subscribe(res => {
-        console.log("mensaje:: ", res.response)
-        localStorage.setItem('isLoggedin', 'true');
-        localStorage.setItem('username', 'Marquez');
-        this.router.navigate(['/dashboard']);
+        if(res.response.estado == "OK_SESSION"){
+          localStorage.setItem('isLoggedin', 'true');
+          localStorage.setItem('username', res.response.usuario.nombre);
+          this.router.navigate(['/dashboard']);
+        }else{
+          const dialogRef = this.dialog.open(DialogComponent, { 
+            width: '250px',
+            data: {text: res.response.estado},
+          });
+          dialogRef.afterClosed();
+        }
         this.loader = false;
       });
     }
