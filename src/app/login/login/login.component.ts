@@ -39,14 +39,14 @@ export class LoginComponent implements OnInit {
       this.loader = true;
 
       this.AuthService.loginUser(param).subscribe(res => {
-        if(res.response.estado == "OK_SESSION"){
+        if(res.response == "SUCCESS"){
           localStorage.setItem('isLoggedin', 'true');
-          localStorage.setItem('username', res.response.usuario.nombre);
+          localStorage.setItem('username', this.loginForm.value.user);
           this.router.navigate(['/dashboard']);
         }else{
           const dialogRef = this.dialog.open(DialogComponent, { 
             width: '250px',
-            data: {text: res.response.estado},
+            data: {text: "Usuario o contraseña incorrectos" },
           });
           dialogRef.afterClosed();
         }
