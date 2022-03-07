@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogComponent } from '../../admin/dashboard/components/dialog/dialog.component';
+import { DialogComponent } from '../../shared/components/dialog/dialog.component';
 
 @Component({
   selector: 'app-login',
