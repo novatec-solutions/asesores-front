@@ -51,21 +51,22 @@
   </div>
 
   <ng-template #loaded>
-    <div class="{{visible ?'visible':'hide'}}">
-      <mat-accordion class="example-headers-align" multi fxFlex>
+    <div class="{{visible ?'visible':'hide'}}" fxFlex>
+      <mat-accordion multi fxFlex="100">
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title class="card-title"><b>Datos del usuario</b></mat-panel-title>
           </mat-expansion-panel-header>
-          <mat-card>
-            <form [formGroup]="userForm" class="form-card" fxLayout="column wrap" fxLayoutAlign="start start" fxLayoutGap="10px">
-              <div fxLayout="row" fxLayoutAlign="start end" fxLayoutGap="15px" class="mr30">
-                <div fxLayout="column">
+          <mat-card >
+            <form [formGroup]="userForm" class="form-card" fxLayout.lt-md="column" fxLayout.gt-sm="column wrap" fxLayoutAlign="start start" fxLayoutGap="10px">
+              <div fxLayout="row" fxLayoutAlign="start end"
+              fxLayout.lt-md="column" fxLayoutAlign.lt-md="start start" fxLayoutGap="15px" class="mr30">
+                <div fxLayout="column" fxFlex="100%">
                   <label>Email:</label>
                   <input class="input-st w-250" formControlName="mail">
                 </div>
                 <button #btnMail class="{{userForm.get('mail').value ==''?'bg-light-grey':'bg-red'}} btn" 
-                (click)="modifyMail(userData)" fxFlex="130px" 
+                (click)="modifyMail(userData)" fxFlex.gt-sm="130px" 
                 [disabled]="userForm.get('mail').value ==''">
                   Cambiar Email
                 </button>
@@ -74,13 +75,14 @@
                 <label>Nombre:</label>
                 <input class="input-st w-250" formControlName="firstName">
               </div>
-              <div fxLayout="row" fxLayoutAlign="start end" fxLayoutGap="15px" class="mr30">
+              <div fxLayout="row" fxLayoutAlign="start end"
+              fxLayout.lt-md="column" fxLayoutAlign.lt-md="start start" fxLayoutGap="15px" class="mr30">
                 <div fxLayout="column" class="mr30">
                   <label>Apellido:</label>
                   <input class="input-st w-250" formControlName="lastName">
                 </div>
                 <button #btnNames class="{{userForm.get('firstName').value =='' || userForm.get('lastName').value ==''?'bg-light-grey':'bg-red'}} btn"
-                (click)="modifyNames(userData)" fxFlex="130px"
+                (click)="modifyNames(userData)" fxFlex.gt-sm="130px"
                 [disabled]="userForm.get('firstName').value =='' || userForm.get('lastName').value ==''">
                   Cambiar Nombres
                 </button>
@@ -105,11 +107,11 @@
             </form>
           </mat-card>
           <div fxLayout="row" fxLayoutAlign="center center">
-            <button class="btn bg-gray mt15">Eliminar cuenta del usuario</button>
+            <button class="btn bg-gray mt15" (click)="deleteAccount()">Eliminar cuenta del usuario</button>
           </div>
           
         </mat-expansion-panel>
-        <mat-expansion-panel>
+        <!-- <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title class="card-title"><b>Alquileres del usuario</b></mat-panel-title>
           </mat-expansion-panel-header>
@@ -117,8 +119,7 @@
             <app-calendar (selectedDate)="dateChange($event)"></app-calendar>
             <app-table dataForTable="{{dataTableAux1}}"></app-table>
           </div>
-          
-        </mat-expansion-panel>
+        </mat-expansion-panel> -->
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title class="card-title"><b>Suscripciones del usuario</b></mat-panel-title>

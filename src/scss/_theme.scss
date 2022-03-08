@@ -5,5 +5,3 @@ $primary: mat.define-palette(mat.$blue-palette, 700);
 $accent: mat.define-palette(mat.$orange-palette, 700);
 $theme: mat.define-light-theme($primary, $accent);
 @include mat.all-component-themes($theme);
-
-@import 'buttons';

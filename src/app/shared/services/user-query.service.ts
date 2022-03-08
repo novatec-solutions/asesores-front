@@ -130,6 +130,15 @@ change_client_password(data:any){
       catchError(this.errorHandl)) 
 }
 
+
+delete_user_account(data:any){
+  this.temp = this.baseUrl + "Landing-Asesores/EliminarCuenta/";
+
+    return this.http.post<any>(this.temp, data).pipe( 
+      retry(1), 
+      catchError(this.errorHandl)) 
+}
+
   errorHandl(error:any) {
     return throwError(error);
   }

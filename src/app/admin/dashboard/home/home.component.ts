@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatAccordion } from '@angular/material/expansion';
 import { enums } from 'src/app/shared/enumText';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogComponent } from '../components/dialog/dialog.component';
+import { DialogComponent } from '../../../shared/components/dialog/dialog.component';
 import { UserQueryService } from '../../../shared/services/user-query.service';
 import { map, mergeMap, tap } from 'rxjs/operators';
 import { mapDevices, mapSubscriptions } from '../mappers/user-query.mapper';
@@ -134,8 +134,6 @@ export class HomeComponent implements OnInit {
         this.showMessage(res.response);
         this.activateBtn(this.btnMail);
       });
-        
-    
     }
   }
 
@@ -265,6 +263,18 @@ export class HomeComponent implements OnInit {
       data: {text: msj},
     });
     dialogRef.afterClosed(); 
+  }
+
+  deleteAccount(){
+    const param = {data :{
+      customerId: this.userData.customerId,
+      providerId: this.userData.providerId,
+      transactionId: this.userData.operatorUserId
+    }};
+    
+    this.UserQueryService.delete_user_account(param).subscribe( res => {
+      this.showMessage(res.response);
+    });
   }
 }
 
