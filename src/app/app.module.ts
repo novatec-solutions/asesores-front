@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -10,6 +10,8 @@ import { SharedModule } from './shared/shared.module';
 
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { paginatorIntlEs } from './shared/paginatorIntlEs';
+
+// import { ApiInterceptor } from './shared/services/api.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +24,7 @@ import { paginatorIntlEs } from './shared/paginatorIntlEs';
     SharedModule
   ],
   providers: [
-    { provide: MatPaginatorIntl, useValue: paginatorIntlEs() }
+    { provide: MatPaginatorIntl, useValue: paginatorIntlEs() },
   ],
   bootstrap: [AppComponent]
 })

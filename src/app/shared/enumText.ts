@@ -11,17 +11,9 @@ export class enums{
     }
     public static table(title:string){
         switch(title){
-            case 'lastTime':
-                return 'Último tiempo de visualización';
-            case 'maxTime':
-                return 'Tiempo máximo de visualización';
-            case 'actions':
-                return 'Acciones';
             // Suscripciones
             case 'descripcion':
                 return 'Titulo';
-            case 'origen':
-                return 'Origen';
             case 'ipUsuario':
                 return 'IP usuario';
             case 'fechaAlta':
@@ -32,21 +24,19 @@ export class enums{
                 return 'Precio';
             case 'medioPago':
                 return 'Medio de pago';
-            case 'medioPago':
-                return 'Medio de pago';
             case 'estadoPago':
                 return 'Estado pago';
             case 'payDetail':
                 return 'Detalle abono';
             case 'detalleAccion':
                 return 'Detalle acción';
+            case 'actions':
+                return 'Acciones';
             // Dispositivos
             case 'tipoDispositivo':
                 return 'Dispositivo';
             case 'nombreDispositivo':
                 return 'Nombre';
-            case 'idDispositivo':
-                return 'Product ID / Serial';
             case 'fechaActivacion':
                 return 'Fecha de activación';
         }

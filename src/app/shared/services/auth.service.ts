@@ -18,7 +18,11 @@ export class AuthService {
   loginUser(data:any): Observable<any> {
     const encryptedPassword = this.aesencryptService.encrypt(data.data.password);
     data.data.password = encryptedPassword;
-    const url = this.baseUrl + "Landing-Asesores/Autentica/";
-    return this.http.post<any>(url, data);
+
+    const encryptedString = this.aesencryptService.encrypt(JSON.stringify(data));
+    const encryptedData = {"data": encryptedString }
+
+    const url = this.baseUrl + "Landing/Asesores/Autentica/";
+    return this.http.post<any>(url, encryptedData);
   }
 }

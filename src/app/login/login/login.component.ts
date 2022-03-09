@@ -31,9 +31,9 @@ export class LoginComponent implements OnInit {
 
       const param = { 
         data:{
-          usuario: this.loginForm.value.user, 
-          password: this.loginForm.value.pass,
-          idApp:"AMCO"
+          "usuario": (this.loginForm.value.user).toUpperCase(), 
+          "password": this.loginForm.value.pass,
+          "idApp":"AMCO"
       }};
 
       this.loader = true;
