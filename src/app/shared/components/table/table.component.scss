@@ -1,32 +1,48 @@
 @import '~src/scss/variables';
 
-.mat-table {
-  border-collapse: collapse; 
+.contenedor{
+  display: block;
+  overflow-x: auto;
 
-  .mat-header-row {
-    height: auto;
-    .mat-header-cell, th:not(th:last-child){ //border-header
-      border-right: 1px solid $white;
-      background: #808080;
-      color: $white;
-      padding: 5px 10px;
-      font-size: 11px;
-      text-align: center;
-      line-height: 1.2;
-      &:last-child { border-right: 1px solid #707070; }
-      &:first-child { border-left: 1px solid #707070; }
+  .mat-table {
+    border-collapse: collapse; 
+    width: 100%;
+  
+    .mat-header-row {
+      height: auto;
+      .mat-header-cell, th:not(th:last-child){ //border-header
+        border-right: 1px solid $white;
+        background: #808080;
+        color: $white;
+        padding: 5px 10px;
+        font-size: 11px;
+        text-align: center;
+        line-height: 1.2;
+        &:last-child { border-right: 1px solid #707070; }
+        &:first-child { border-left: 1px solid #707070; }
+      }
     }
-  }
-  .mat-row {
-    height: auto;
-    .mat-cell {
-      border: 1px solid #707070;
-      padding: 5px 10px;
+    .mat-row {
+      height: 
+      auto;
+      .mat-cell {
+        border: 1px solid #707070;
+        padding: 5px 10px;
+        font-size: 10px;
+      }
+    }
+    .btn-xs{
+      padding: 4px 15px;
       font-size: 10px;
     }
   }
-  .btn-xs{
-    padding: 4px 15px;
-    font-size: 10px;
-  }
+}
+
+::-webkit-scrollbar {
+  height: 7px;
+  background-color: #e2e2e2;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #707070;
 }

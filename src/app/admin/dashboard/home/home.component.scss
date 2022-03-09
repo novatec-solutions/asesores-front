@@ -72,6 +72,9 @@
   }
 
   .form-card { 
+    .w-130{
+      width: 130px;
+    }
     label{
       color: #2D2D2D;
       font-weight: bold;
@@ -96,26 +99,4 @@
   input[type=number]::-webkit-outer-spin-button { 
     -webkit-appearance: none; 
     margin: 0; 
-  }
-
- 
-
-  @media screen and (min-width: 481px) {
-    .form-card { 
-      height: 210px; 
-      .w-250{
-        width: 250px;
-      }
-    }
-  }
-  @media screen and (max-width: 480px) {
-    .form-card { 
-      height: 535px; 
-      div{
-        width: 97%;
-        .w-250{
-          width: 100%;
-        }
-      }
-    }
   }

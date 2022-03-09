@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  url_server: 'http://asesoresapp-back-miclaro-dev-novatec.104.209.147.150.nip.io/m3/'
+  url_server: 'http://asesoresapp-back-miclaro-dev-novatec.104.209.147.150.nip.io/'
 };
 
 /*

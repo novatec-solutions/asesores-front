@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
   dataRange: any;
 
   displayedColumns1 = ['title','ipUser','lastTime','maxTime','highDate','dateExpiry','price','payMethod','actions'];
-  ELEMENT_DATA1 = [{title:"",ipUser:"",lastTime:"",maxTime:"",highDate:"",dateExpiry:"",price:"",payMethod:"",actions:""}];
+  ELEMENT_DATA1 = [];
 
   displayedColumns2 = ['descripcion','ipUsuario','fechaAlta','fechaExpiracion','precio','medioPago','estadoPago','payDetail','detalleAccion','actions'];
   ELEMENT_DATA2 = [];
@@ -112,11 +112,21 @@ export class HomeComponent implements OnInit {
     )
     .subscribe( ({ userdata, subscriptions, devices }) => {
       this.validateData(userdata);
-      const subscriptionData = mapSubscriptions(subscriptions);
-      this.setSubscriptionsData(subscriptionData);
 
-      const devicesData = mapDevices(devices);
-      this.setDevicesData(devicesData);
+      if(subscriptions.response){
+        const subscriptionData = mapSubscriptions(subscriptions);
+        this.setSubscriptionsData(subscriptionData);
+      }else{
+        this.setSubscriptionsData([]);
+      }
+      
+      if(devices.response){
+        const devicesData = mapDevices(devices);
+        this.setDevicesData(devicesData);
+      }else{
+        this.setDevicesData([]);
+      }
+      
     });
   }
 
@@ -271,7 +281,7 @@ export class HomeComponent implements OnInit {
       providerId: this.userData.providerId,
       transactionId: this.userData.operatorUserId
     }};
-    
+
     this.UserQueryService.delete_user_account(param).subscribe( res => {
       this.showMessage(res.response);
     });

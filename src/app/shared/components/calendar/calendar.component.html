@@ -1,7 +1,9 @@
-<mat-card fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="18px">
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="7px">
+<mat-card fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start center" 
+fxLayout.lt-md="column" fxLayoutAlign=" stretch" fxLayoutGap="18px">
+    <div fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start center" 
+    fxLayout.lt-md="column" fxLayoutGap="7px">
         <label class="card-label">Fecha desde:</label>
-        <div class="calendar">
+        <div class="calendar" fxLayout.lt-md="column" fxLayoutAlign=" stretch">
             <mat-form-field >
                 <input matInput [matDatepicker]="pickerStart"
                 [formControl]="dateStart">
@@ -10,9 +12,10 @@
             </mat-form-field>
         </div>
     </div>
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="7px">
+    <div fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start center"
+    fxLayout.lt-md="column" fxLayoutGap="7px">
         <label class="card-label">Fecha hasta:</label>
-        <div class="calendar">
+        <div class="calendar" fxLayout.lt-md="column" fxLayoutAlign=" stretch">
             <mat-form-field >
                 <input matInput [matDatepicker]="pickerEnd"
                 [formControl]="dateEnd">
@@ -21,5 +24,7 @@
             </mat-form-field>
         </div>
     </div>
-    <button class="btn bg-red" (click)="sendDate()">Enviar</button>
+    <div fxLayout fxLayoutAlign="center center">
+        <button class="btn bg-red" (click)="sendDate()">Enviar</button>
+    </div>
   </mat-card>

@@ -1,12 +1,5 @@
 @import '~src/scss/variables';
 
-%login-background {
-  background: url(../../../assets/images/login-hero.png);
-  background-size:cover;
-  background-position:center center;
-  background-attachment:fixed;
-}
-
 .login-page {
   @extend %login-background;
 
@@ -77,6 +70,21 @@
         margin-bottom: 2.5rem;
       }
     }
+  }
+}
+
+@media screen and (min-width: 481px) {
+  %login-background {
+    background: url(../../../assets/images/login-hero.png);
+    background-size:cover;
+    background-position:center center;
+    background-attachment:fixed;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  %login-background {
+    background: #000000;
   }
 }
 
