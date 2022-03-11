@@ -1,4 +1,4 @@
-FROM nginxinc/nginx-unprivileged
+FROM nginx:alpine
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
@@ -7,9 +7,10 @@ WORKDIR /app
 COPY . .
 
 RUN apk update && \
-    apk add nodejs npm make curl g++
+    apk add nodejs npm 
 
-RUN npm ci && npm run build
+RUN npm ci && \
+    npm run build --prod
 
 RUN rm -rf /usr/share/nginx/html/*
 
