@@ -9,7 +9,7 @@ COPY . .
 RUN apk update && \
     apk add nodejs npm 
 
-RUN npm ci && \
+RUN npm install && \
     npm run build --prod
 
 RUN rm -rf /usr/share/nginx/html/*
