@@ -6,11 +6,11 @@ WORKDIR /app
 
 COPY . .
 
-RUN apk update
-RUN apk add nodejs npm 
+RUN apk update && \
+    apk add nodejs npm 
 
-RUN npm install
-RUN npm run build --prod
+RUN npm install && \
+    npm run build --prod
 
 RUN rm -rf /usr/share/nginx/html/*
 
