@@ -16,9 +16,6 @@ export class AuthService {
   }
 
   loginUser(data:any): Observable<any> {
-    const encryptedPassword = this.aesencryptService.encrypt(data.data.password);
-    data.data.password = encryptedPassword;
-
     const encryptedString = this.aesencryptService.encrypt(JSON.stringify(data));
     const encryptedData = {"data": encryptedString }
 
