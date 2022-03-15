@@ -37,11 +37,11 @@ export class LoginComponent implements OnInit {
       }};
 
       this.loader = true;
-
       this.AuthService.loginUser(param).subscribe(res => {
-        if(res.response == "SUCCESS"){
+        if(res.response.estado == "OK_SESSION"){
           localStorage.setItem('isLoggedin', 'true');
-          localStorage.setItem('username', this.loginForm.value.user);
+          localStorage.setItem('username', res.response.usuario.usuario);
+          localStorage.setItem('userStatus', res.response.usuario.estado);
           this.router.navigate(['/dashboard']);
         }else{
           const dialogRef = this.dialog.open(DialogComponent, { 

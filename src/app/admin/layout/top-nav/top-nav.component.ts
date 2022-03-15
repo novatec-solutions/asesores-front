@@ -17,6 +17,7 @@ export class TopNavComponent implements OnInit {
 
   onLoggedout() {
     localStorage.removeItem('username');
+    localStorage.removeItem('userStatus');
     localStorage.removeItem('isLoggedin');
     this.router.navigate(['/login']);
   }
