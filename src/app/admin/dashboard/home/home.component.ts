@@ -100,7 +100,7 @@ export class HomeComponent implements OnInit {
     const request = { 
         "data": { 
           [ key ]: value,
-          "state": "A" 
+          "state": localStorage.getItem('userStatus') 
         }
      };
 
