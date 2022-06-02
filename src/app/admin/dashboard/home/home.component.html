@@ -67,7 +67,8 @@
                     <label>Email:</label>
                     <input class="input-st" formControlName="mail">
                   </div>
-                  <button #btnMail class="{{userForm.get('mail').value ==''?'bg-light-grey':'bg-red'}} btn w-130" 
+                  <button #btnMail appRoleStyle
+                  class="{{userForm.get('mail').value ==''?'bg-light-grey':'bg-red'}} btn w-130" 
                   (click)="modifyMail(userData)" 
                   [disabled]="userForm.get('mail').value ==''">
                     Cambiar Email
@@ -110,38 +111,37 @@
                 <div fxLayout fxLayoutAlign="center center">
                   <button class="btn bg-blue w-130 mt20" (click)="changePassword()">Cambiar clave</button>
                 </div>
-                
               </div>
             </form>
           </mat-card>
-          <div fxLayout="row" fxLayoutAlign="center center">
+          <div fxLayout="row" 
+          fxLayoutAlign="center center" appRoleStyle>
             <button class="btn bg-gray mt15" (click)="deleteAccount()">Eliminar cuenta del usuario</button>
-          </div>
-          
+          </div> 
         </mat-expansion-panel>
-        <!-- <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title class="card-title"><b>Alquileres del usuario</b></mat-panel-title>
-          </mat-expansion-panel-header>
-          <div fxFlex fxLayout="column" fxLayoutGap="20px">
-            <app-calendar (selectedDate)="dateChange($event)"></app-calendar>
-            <app-table dataForTable="{{dataTableAux1}}"></app-table>
-          </div>
-        </mat-expansion-panel> -->
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title class="card-title"><b>Suscripciones del usuario</b></mat-panel-title>
           </mat-expansion-panel-header>
           <div fxLayout="column" fxLayoutAlign=" stretch" fxLayoutGap="20px">
             <app-calendar (selectedDate)="dateChange($event)"></app-calendar>
-            <app-table dataForTable="{{dataTableAux2}}"></app-table>
+            <app-table dataForTable="{{dataTableSubscriptions}}"></app-table>
           </div>
         </mat-expansion-panel>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title class="card-title"><b>Dispositivos del usuario</b></mat-panel-title>
           </mat-expansion-panel-header>
-          <app-table dataForTable="{{dataTableAux3}}"></app-table>
+          <app-table dataForTable="{{dataTableDevices}}"></app-table>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title class="card-title"><b>Rentas del usuario</b></mat-panel-title>
+          </mat-expansion-panel-header>
+          <div fxLayout="column" fxLayoutAlign=" stretch" fxLayoutGap="20px">
+            <app-calendar (selectedDate)="dateChange($event)"></app-calendar>
+            <app-table dataForTable="{{dataTableRent}}"></app-table>
+          </div>
         </mat-expansion-panel>
       </mat-accordion>
     </div>

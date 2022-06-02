@@ -42,6 +42,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('isLoggedin', 'true');
           localStorage.setItem('username', res.response.usuario.usuario);
           localStorage.setItem('userStatus', res.response.usuario.estado);
+          localStorage.setItem('userRole', res.response.usuario.role);
           this.router.navigate(['/dashboard']);
         }else{
           const dialogRef = this.dialog.open(DialogComponent, { 
