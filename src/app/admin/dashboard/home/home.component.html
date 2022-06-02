@@ -139,7 +139,7 @@
             <mat-panel-title class="card-title"><b>Rentas del usuario</b></mat-panel-title>
           </mat-expansion-panel-header>
           <div fxLayout="column" fxLayoutAlign=" stretch" fxLayoutGap="20px">
-            <app-calendar (selectedDate)="dateChange($event)"></app-calendar>
+            <app-calendar (selectedDate)="dateChangeRent($event)"></app-calendar>
             <app-table dataForTable="{{dataTableRent}}"></app-table>
           </div>
         </mat-expansion-panel>

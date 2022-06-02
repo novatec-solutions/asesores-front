@@ -244,12 +244,26 @@ export class HomeComponent implements OnInit {
   dateChange(date:any){ 
     this.dataRange.userdata.response.startDate = date.start;
     this.dataRange.userdata.response.endDate = date.end;
+
     this.UserQueryService.find_subscription_by_email(this.dataRange).subscribe( res => {
       if(res.subscriptions.error == 0){
         const subscriptionData = mapSubscriptions(res.subscriptions);
         this.setSubscriptionsData(subscriptionData);
       }
     });    
+  }
+
+  dateChangeRent(date:any){
+    this.dataRange.userdata.response.startDate = date.start;
+    this.dataRange.userdata.response.endDate = date.end;
+
+    this.UserQueryService.find_rent_data(this.dataRange).subscribe( res => {
+      console.log(res)
+      if(res.rent.error == 0){
+        const rentData = mapSubscriptions(res.rent);
+        this.setSubscriptionsData(rentData);
+      }
+    }); 
   }
 
   changePassword(){
