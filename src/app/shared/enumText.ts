@@ -39,6 +39,18 @@ export class enums{
                 return 'Nombre';
             case 'fechaActivacion':
                 return 'Fecha de activación';
+            // Renta
+            case 'idRenta':
+                return 'Id Renta';
+            case 'idRefRenta':
+                return 'Referencia de renta';
+            case 'moneda':
+                return 'Moneda';
         }
     }
+}
+
+export enum UserRole {
+    ADMIN = 'Administrador',
+    VISUALIZER = 'Visualizador',
 }

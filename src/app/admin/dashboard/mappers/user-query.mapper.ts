@@ -20,3 +20,10 @@ export function mapDevices({ response }) {
         return mapNestedData(item);
     });
 }
+
+export function mapRent({ response }) {
+    const { suscripciones } = response;
+    return suscripciones.map( item => {
+        return mapNestedData(item);
+    });
+}

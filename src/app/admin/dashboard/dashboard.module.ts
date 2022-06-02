@@ -8,6 +8,7 @@ import { CalendarComponent } from '../../shared/components/calendar/calendar.com
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../../shared/material.module';
 import { DialogComponent } from '../../shared/components/dialog/dialog.component';
+import { RoleStyleDirective } from 'src/app/shared/role-style.directive';
 
 @NgModule({
   imports: [
@@ -18,7 +19,7 @@ import { DialogComponent } from '../../shared/components/dialog/dialog.component
     ReactiveFormsModule,
     MaterialModule
   ],
-  declarations: [HomeComponent, TableComponent, CalendarComponent, DialogComponent],
+  declarations: [HomeComponent, TableComponent, CalendarComponent, DialogComponent, RoleStyleDirective],
   exports: [TableComponent, CalendarComponent]
   
 })

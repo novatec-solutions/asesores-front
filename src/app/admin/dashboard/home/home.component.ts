@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../../../shared/components/dialog/dialog.component';
 import { UserQueryService } from '../../../shared/services/user-query.service';
 import { map, mergeMap, tap } from 'rxjs/operators';
-import { mapDevices, mapSubscriptions } from '../mappers/user-query.mapper';
+import { mapDevices, mapSubscriptions, mapRent } from '../mappers/user-query.mapper';
 
 @Component({
   selector: 'app-home',
@@ -22,9 +22,9 @@ export class HomeComponent implements OnInit {
   hogar:boolean = false;
   lookupValue = "";
   sType: string = '';
-  dataTableAux1;
-  dataTableAux2;
-  dataTableAux3;
+  dataTableSubscriptions;
+  dataTableDevices;
+  dataTableRent;
   loading: boolean = false;
   visible: boolean = false;
   userData: any;
@@ -32,14 +32,14 @@ export class HomeComponent implements OnInit {
   userForm: FormGroup;
   dataRange: any;
 
-  displayedColumns1 = ['title','ipUser','lastTime','maxTime','highDate','dateExpiry','price','payMethod','actions'];
-  ELEMENT_DATA1 = [];
-
-  displayedColumns2 = ['descripcion','ipUsuario','fechaAlta','fechaExpiracion','precio','medioPago','estadoPago','payDetail','detalleAccion','actions'];
-  ELEMENT_DATA2 = [];
+  displayedColumnsSubscriptions = ['descripcion','ipUsuario','fechaAlta','fechaExpiracion','precio','medioPago','estadoPago','payDetail','detalleAccion','actions'];
+  ELEMENT_DATA_SUBSCRIPTIONS = [];
   
-  displayedColumns3 = ['tipoDispositivo','nombreDispositivo','fechaActivacion'];
-  ELEMENT_DATA3 = [];
+  displayedColumnsDevices = ['tipoDispositivo','nombreDispositivo','fechaActivacion'];
+  ELEMENT_DATA_DEVICES = [];
+
+  displayedColumnsRent = ['descripcion','ipUsuario','fechaAlta','fechaExpiracion','precio','medioPago','idRenta','idRefRenta','moneda','actions'];
+  ELEMENT_DATA_RENT = [];
   
   constructor(public fb: FormBuilder, 
               public dialog: MatDialog,
@@ -50,19 +50,24 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dataTableAux1 = JSON.stringify({columns: this.displayedColumns1, elements: this.ELEMENT_DATA1});
     this.setDevicesData([]);
     this.setSubscriptionsData([]);
+    this.setRentData([]);
   }
 
   private setSubscriptionsData(subscriptions){
-    this.ELEMENT_DATA2 = subscriptions;
-    this.dataTableAux2 = JSON.stringify({columns: this.displayedColumns2, elements: this.ELEMENT_DATA2});
+    this.ELEMENT_DATA_SUBSCRIPTIONS = subscriptions;
+    this.dataTableSubscriptions = JSON.stringify({columns: this.displayedColumnsSubscriptions, elements: this.ELEMENT_DATA_SUBSCRIPTIONS});
   }
 
   private setDevicesData(devicesData){
-    this.ELEMENT_DATA3 = devicesData;
-    this.dataTableAux3 = JSON.stringify({columns: this.displayedColumns3, elements: this.ELEMENT_DATA3});
+    this.ELEMENT_DATA_DEVICES = devicesData;
+    this.dataTableDevices = JSON.stringify({columns: this.displayedColumnsDevices, elements: this.ELEMENT_DATA_DEVICES});
+  }
+
+  private setRentData(rentData){
+    this.ELEMENT_DATA_RENT = rentData;
+    this.dataTableRent = JSON.stringify({columns: this.displayedColumnsRent, elements: this.ELEMENT_DATA_RENT});
   }
 
   private getSelectedData(valor){
@@ -108,11 +113,12 @@ export class HomeComponent implements OnInit {
       map( userdata => ({ userdata })),
       tap( data => { this.dataRange = data }),
       mergeMap( res => this.UserQueryService.find_subscription_by_email(res)),
-      mergeMap( res => this.UserQueryService.find_devices_by_email(res))
+      mergeMap( res => this.UserQueryService.find_devices_by_email(res)),
+      mergeMap( res => this.UserQueryService.find_rent_data(res))
     )
-    .subscribe( ({ userdata, subscriptions, devices }) => {
+    .subscribe( ({ userdata, subscriptions, devices, rent }) => {
       this.validateData(userdata);
-
+      
       if(subscriptions.response){
         const subscriptionData = mapSubscriptions(subscriptions);
         this.setSubscriptionsData(subscriptionData);
@@ -125,6 +131,13 @@ export class HomeComponent implements OnInit {
         this.setDevicesData(devicesData);
       }else{
         this.setDevicesData([]);
+      }
+
+      if(rent.response){
+        const rentData = mapRent(rent);
+        this.setRentData(rentData);
+      }else{
+        this.setRentData([]);
       }
       
     });

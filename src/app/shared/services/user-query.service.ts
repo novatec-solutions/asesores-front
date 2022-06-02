@@ -116,6 +116,44 @@ export class UserQueryService {
       ); 
   }
 
+  find_rent_data(userdata:any): Observable<any> {
+    const url = this.baseUrl + "Landing/Asesores/ConsultarRentas/";
+
+    const { startDate, endDate } = userdata.userdata.response;
+    const startD =  startDate ? startDate:  moment().subtract(4, 'M').format("YYYY-MM-DDT00:00:00[Z]");
+    const endD = endDate ? endDate : moment().format("YYYY-MM-DDTHH:mm:ss[Z]");
+
+    const data = {
+      "data": {
+          "Username": "PA00003102",
+          "Password": "aMc0Co3!",
+          "invokeMethod": "consultarrentascliente",
+          "correlatorId": "00000232550e8400e29b41d4a7164466551234",
+          "countryId": "CO",
+          "startDate": startD,
+          "endDate": endD,
+          "employeeId": "352fegsf",
+          "origin": "MI_CLARO",
+          "serviceName": "consultarrentascliente",
+          "providerId": "PA00003102",
+          "iccidManager": "AMCOCO",
+          "key": "CUSTOMERID", 
+          "value": userdata.userdata.response.customerId
+      }
+    };
+
+    const encryptedString = this.aesencryptService.encrypt(JSON.stringify(data));
+    const encryptedData = {"data": encryptedString }
+    return this.http.post<any>(url, encryptedData).pipe( 
+        retry(1), 
+        catchError(this.errorHandl),
+        map( rent => ({
+          ...userdata,
+          rent : rent.error ? {} : rent
+        }))
+      ); 
+  }
+
   change_client_names(data:any): Observable<any> {
     const encryptedString = this.aesencryptService.encrypt(JSON.stringify(data));
     const encryptedData = {"data": encryptedString }
