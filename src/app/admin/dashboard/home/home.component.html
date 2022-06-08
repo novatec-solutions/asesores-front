@@ -32,7 +32,7 @@
             <mat-icon class="search-icon">search</mat-icon>
             <div fxLayout="column">
              <input type="{{sType=='email'?'email':'number'}}" formControlName="lookupValue" appearance="outline"
-              fxFlex [ngClass]="{'err-box':searchForm.get('lookupValue')!.hasError('pattern')}" class="input-st">
+              fxFlex [ngClass]="{'err-box':searchForm.get('lookupValue')!.hasError('pattern')}" class="input-st" [appMaxLength]="nMaxLenghtSearch">
               <label class="err-text pt5" *ngIf="sType=='email' && searchForm.get('lookupValue')!.hasError('pattern')">Campo obligatorio, debe escribir un email correcto</label>
               <label class="err-text pt5" *ngIf="sType=='hogar' && searchForm.get('lookupValue')!.hasError('pattern')">Campo obligatorio</label>
               <label class="err-text pt5" *ngIf="sType=='movil' && searchForm.get('lookupValue')!.hasError('pattern')">Campo obligatorio, debe inciar en 3 y contener 10 digitos</label>
@@ -68,9 +68,9 @@
                     <input class="input-st" formControlName="mail">
                   </div>
                   <button #btnMail appRoleStyle
-                  class="{{userForm.get('mail').value ==''?'bg-light-grey':'bg-red'}} btn w-130" 
+                  class="{{userForm.get('mail').invalid?'bg-light-grey':'bg-red'}} btn w-130" 
                   (click)="modifyMail(userData)" 
-                  [disabled]="userForm.get('mail').value ==''">
+                  [disabled]="userForm.get('mail').invalid">
                     Cambiar Email
                   </button>
                 </div>
