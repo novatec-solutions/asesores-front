@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../../shared/material.module';
 import { DialogComponent } from '../../shared/components/dialog/dialog.component';
 import { RoleStyleDirective } from 'src/app/shared/role-style.directive';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { RoleStyleDirective } from 'src/app/shared/role-style.directive';
     FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
+    SharedModule
   ],
   declarations: [HomeComponent, TableComponent, CalendarComponent, DialogComponent, RoleStyleDirective],
   exports: [TableComponent, CalendarComponent]

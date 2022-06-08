@@ -19,7 +19,7 @@ export class AuthService {
     const encryptedString = this.aesencryptService.encrypt(JSON.stringify(data));
     const encryptedData = {"data": encryptedString }
 
-    const url = this.baseUrl + "Landing/Asesores/Autentica/";
+    const url = "http://asesoresapp-back-miclaro-dev-novatec.104.209.147.150.nip.io/Landing/Asesores/Autentica/"; //this.baseUrl + "Landing/Asesores/Autentica/";
     return this.http.post<any>(url, encryptedData);
   }
 }

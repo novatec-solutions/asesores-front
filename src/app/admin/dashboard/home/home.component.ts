@@ -31,6 +31,7 @@ export class HomeComponent implements OnInit {
   searchForm: FormGroup;
   userForm: FormGroup;
   dataRange: any;
+  nMaxLenghtSearch: number = 30;
 
   displayedColumnsSubscriptions = ['descripcion','ipUsuario','fechaAlta','fechaExpiracion','precio','medioPago','estadoPago','payDetail','detalleAccion','actions'];
   ELEMENT_DATA_SUBSCRIPTIONS = [];
@@ -46,7 +47,11 @@ export class HomeComponent implements OnInit {
               private UserQueryService: UserQueryService,
               private renderer: Renderer2) {
     this.searchForm = this.fb.group({lookupValue: [{ value:'', disabled: true },Validators.required]});
-    this.userForm = this.fb.group({ mail: '', firstName: '',lastName: '' });
+    this.userForm = this.fb.group({ mail: ['', [Validators.email, Validators.required]], 
+                                  firstName: '',
+                                  lastName: '' 
+    });
+    
   }
 
   ngOnInit() {
@@ -216,6 +221,7 @@ export class HomeComponent implements OnInit {
     this.visible = false;
     this.loading = false;
     this.sType = enums.account(type);
+    this.nMaxLenghtSearch=30;
     switch(enums.account(type)) { 
       case 'email': { 
         this.email = true;
@@ -235,6 +241,7 @@ export class HomeComponent implements OnInit {
       case 'movil': { 
         this.movil = true;
         this.email = this.hogar = false;
+        this.nMaxLenghtSearch=10;
         this.searchForm = this.fb.group({lookupValue: ['',[Validators.required, Validators.pattern(/^3{1}\d{9}$/)]]});
         break; 
      } 
@@ -271,20 +278,8 @@ export class HomeComponent implements OnInit {
     this.showMessage(msj);
 
     const param = {data:{
-      Username: "PA00003102",
-      Password: "aMc0Co3!B",
-      transactionId: "202202258103435",
-      invokeMethod: "modificaremail",
-      correlatorId: "00000232550e8400e29b41d4a716446655440080",
-      countryId: "CO",
-      userId: "MI_CLARO",
-      employeeId: "6666869",
-      origin: "MI_CLARO",
-      serviceName: "modificaremail",
-      providerId: "PA00002812",
-      iccidManager: "AMCOCO",
       value: this.userData.customerId,
-  }};
+    }};
     
     this.UserQueryService.change_client_password(param).subscribe( res => {});
   }

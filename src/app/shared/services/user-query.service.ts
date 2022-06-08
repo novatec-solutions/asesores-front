@@ -49,25 +49,14 @@ export class UserQueryService {
   find_devices_by_email(userdata:any): Observable<any> {
     const data = {
         "data": {
-            "Username": "PA00003102",
-            "Password": "aMc0Co3!",
-            "invokeMethod": "consultardispositivoscliente",
-            "correlatorId": "00000232550e8400e29b41d4a716446655440799",
-            "countryId": "CO",
-            "employeeId": "9984",
-            "origin": "MI_CLARO",
-            "serviceName": "consultardispositivoscliente",
-            "providerId": "PA00002812",
-            "iccidManager": "AMCOCO",
-            "key": "CUSTOMERID",
-            "value": userdata.userdata.response.customerId
+            "value": userdata.userdata.response.customerId,
         }
     };
 
     const encryptedString = this.aesencryptService.encrypt(JSON.stringify(data));
     const encryptedData = {"data": encryptedString }
     const url = this.baseUrl + "Landing/Asesores/ConsultarDispositivos/";
-
+    
     return this.http.post<any>(url, encryptedData).pipe( 
       retry(1), 
       catchError(this.errorHandl),
@@ -87,17 +76,6 @@ export class UserQueryService {
 
     const data = {
       "data": {
-          "Username": "PA00003102",
-          "Password": "aMc0Co3!",
-          "invokeMethod": "consultardatoscliente",
-          "correlatorId": "00000232550e8400e29b41d4a716446655449899",
-          "countryId": "CO",
-          "employeeId": "567shsgww3",
-          "origin": "MI_CLARO",
-          "serviceName": "consultardatoscliente",
-          "providerId": "PA00002812",
-          "iccidManager": "AMCOCO",
-          "key": "CUSTOMERID", 
           "value": userdata.userdata.response.customerId,
           "startDate": startD,
           "endDate": endD
@@ -124,24 +102,12 @@ export class UserQueryService {
     const endD = endDate ? endDate : moment().format("YYYY-MM-DDTHH:mm:ss[Z]");
 
     const data = {
-      "data": {
-          "Username": "PA00003102",
-          "Password": "aMc0Co3!",
-          "invokeMethod": "consultarrentascliente",
-          "correlatorId": "00000232550e8400e29b41d4a7164466551234",
-          "countryId": "CO",
+      "data": { 
           "startDate": startD,
           "endDate": endD,
-          "employeeId": "352fegsf",
-          "origin": "MI_CLARO",
-          "serviceName": "consultarrentascliente",
-          "providerId": "PA00003102",
-          "iccidManager": "AMCOCO",
-          "key": "CUSTOMERID", 
-          "value": userdata.userdata.response.customerId
+          "value": userdata.userdata.response.customerId,
       }
     };
-
     const encryptedString = this.aesencryptService.encrypt(JSON.stringify(data));
     const encryptedData = {"data": encryptedString }
     return this.http.post<any>(url, encryptedData).pipe( 
