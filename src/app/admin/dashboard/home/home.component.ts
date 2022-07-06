@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
   searchForm: FormGroup;
   userForm: FormGroup;
   dataRange: any;
-  nMaxLenghtSearch: number = 30;
+  nMaxLenghtSearch: number = 50;
 
   displayedColumnsSubscriptions = ['descripcion','ipUsuario','fechaAlta','fechaExpiracion','precio','medioPago','estadoPago','payDetail','detalleAccion','actions'];
   ELEMENT_DATA_SUBSCRIPTIONS = [];
@@ -221,7 +221,7 @@ export class HomeComponent implements OnInit {
     this.visible = false;
     this.loading = false;
     this.sType = enums.account(type);
-    this.nMaxLenghtSearch=30;
+    this.nMaxLenghtSearch=50;
     switch(enums.account(type)) { 
       case 'email': { 
         this.email = true;
